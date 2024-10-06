@@ -1,0 +1,179 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/client"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model category {
+  id           Int       @id @default(autoincrement())
+  categoryName String    @db.VarChar(255)
+  createdAt    DateTime  @default(now()) @db.Timestamp(0)
+  product      product[]
+}
+
+model client {
+  id         Int       @id @default(autoincrement())
+  name       String    @db.VarChar(255)
+  address    String    @db.VarChar(255)
+  phone      String    @db.VarChar(255)
+  email      String    @db.VarChar(255)
+  createdAt  DateTime  @default(now()) @db.Timestamp(0)
+  clientCode String    @unique @db.VarChar(255)
+  userId     Int       
+  payId      Int        
+  user       user      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  invoice    invoice[]
+  clientpayment       clientpayment      @relation(fields: [payId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model invoice {
+  id              Int                   @id @default(autoincrement())
+  clientId        Int
+  invoiceCode     String                @unique @db.VarChar(255)
+  invoiceDate     DateTime
+  nextInvoiceDate DateTime
+  invoiceStatus   invoice_invoiceStatus
+  totalAmount     Int
+  recurringDays   Int                   
+  createdAt       DateTime              @default(now()) @db.Timestamp(0)
+  subTotal        Int
+  paymentId       Int                   
+  userId          Int
+  isDeleted       Boolean               @default(false)
+  client          client                @relation(fields: [clientId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  paymentdetails  paymentdetails        @relation(fields: [paymentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user            user                  @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  invoicedetail   invoicedetail[]
+
+  @@index([clientId])
+  @@index([userId])
+  @@index([paymentId])
+}
+
+model invoicedetail {
+  id         Int      @id @default(autoincrement())
+  productId  Int
+  invoiceId  Int
+  qty        Int
+  priceUnit  Int
+  priceTotal Int
+  createdAt  DateTime @default(now()) @db.Timestamp(0)
+  invoice    invoice  @relation(fields: [invoiceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  product    product  @relation(fields: [productId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+ 
+  @@index([productId])
+  @@index([invoiceId])
+
+}
+
+model paymentdetails {
+  id             Int            @id @default(autoincrement())
+  userId         Int
+  paymentOptId   Int
+  paymentCode    String         @unique @db.VarChar(255) 
+  bankAccount    String?         @db.VarChar(255)
+  accountNumber  String?         @db.VarChar(255)
+  accountName    String?         @db.VarChar(255)
+  createdAt      DateTime       @default(now()) @db.Timestamp(0)
+  paymentoptions paymentoptions @relation(fields: [paymentOptId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user           user           @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  invoice        invoice[] 
+
+  @@index([userId])
+  @@index([paymentOptId])
+
+}
+
+model paymentoptions {
+  id             Int                        @id @default(autoincrement())
+  paymentType    paymentoptions_paymentType
+  createdAt      DateTime                   @default(now()) @db.Timestamp(0)
+  paymentdetails paymentdetails[]
+}
+
+model clientpayment {
+  id             Int            @id @default(autoincrement())
+  paymentMethod  paymentmethod
+  createdAt      DateTime       @default(now()) @db.Timestamp(0)
+    client           client[] 
+}
+
+model product {
+  id            Int             @id @default(autoincrement())
+  userId        Int
+  productCode   String          @unique @db.VarChar(255)
+  name          String          @db.VarChar(255)
+  description   String
+  price         Int
+  isDeleted     Boolean         @default(false)
+  createdAt     DateTime        @default(now()) @db.Timestamp(0)
+  categoryId    Int
+  invoicedetail invoicedetail[]
+  category      category        @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user          user            @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  
+
+  @@index([userId])
+  @@index([categoryId])
+}
+
+model user {
+  id               Int              @id @default(autoincrement())
+  identificationId String           @unique
+  username         String           @unique @db.VarChar(255)
+  email            String           @unique @db.VarChar(255)
+  password         String           @db.VarChar(255)
+  createdAt        DateTime         @default(now()) @db.Timestamp(0)
+  isBlocked        Boolean          @default(false)
+  lastLoginAttempt DateTime         @default(now()) @db.Timestamp(0)
+  loginAttempt     Int              @default(0)
+  isVerified       Boolean          @default(false)
+  client           client[]
+  invoice          invoice[]
+  paymentdetails   paymentdetails[]
+  product          product[]
+  userprofile      userprofile[]
+}
+
+model userprofile {
+  id             Int            @id @default(autoincrement())
+  userId         Int
+  firstName      String?        @db.VarChar(255)
+  lastName       String?        @db.VarChar(255)
+  companyName    String?        @db.VarChar(255)
+  profilePicture String?        @db.VarChar(255)
+  address        String?        @db.VarChar(255)
+  phone          String?        @db.VarChar(255)
+  createdAt      DateTime       @default(now()) @db.Timestamp(0)
+  isCreated      Boolean        @default(false)
+  user           user           @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([userId])
+}
+
+enum paymentoptions_paymentType {
+  CASH
+  BANK_TRANSFER
+}
+
+enum invoice_invoiceStatus {
+  PAID
+  UNPAID
+  OVERDUE
+}
+
+enum paymentmethod{
+  GOPAY
+  OVO
+  DANA
+  CREDIT_CARD
+  COD
+  BANK_VA
+  BANK_TRANSFER
+  PAYLATER
+}
