@@ -40,11 +40,7 @@ export default function Home() {
     onSuccess: (data) => {
       setIsDialogOpen(false);
       localStorage.removeItem('token');
-      setUser({
-        email: '',
-        username: '',
-        identificationId: '',
-      });
+      setUser(null);
       toast('Logout success', {
         onClose: () => {
           router.replace('/login');

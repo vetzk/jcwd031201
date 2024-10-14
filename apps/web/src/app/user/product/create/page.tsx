@@ -20,6 +20,7 @@ import {
   SelectTrigger,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
+import { UserContext } from '@/contexts/UserContext';
 import apiCall from '@/helper/apiCall';
 import withAuth from '@/hoc/authGuard';
 import { SelectValue } from '@radix-ui/react-select';
@@ -32,6 +33,7 @@ import 'react-toastify/dist/ReactToastify.css';
 interface ICreateProductProps {}
 
 const CreateProduct: React.FunctionComponent<ICreateProductProps> = (props) => {
+  const { user } = React.useContext(UserContext);
   const [name, setName] = React.useState<string>('');
   const [price, setPrice] = React.useState<number>(0);
   const [description, setDescription] = React.useState<string>('');
@@ -128,6 +130,17 @@ const CreateProduct: React.FunctionComponent<ICreateProductProps> = (props) => {
     }
     console.log(categoryName);
   }, [data, category, categoryName]);
+
+  if (!user?.isVerified) {
+    return (
+      <div className="w-full flex justify-center items-center min-h-screen">
+        <p className="text-2xl">
+          Please Verify first before you can access our features
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full">
       <ToastContainer />
