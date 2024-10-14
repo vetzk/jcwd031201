@@ -25,6 +25,11 @@ export class AuthRouter {
 
     this.router.post('/login', loginValidation, this.authController.login);
     this.router.patch('/verify', verifyToken, this.authController.verifyEmail);
+    this.router.get(
+      '/validate',
+      verifyToken,
+      this.authController.validateToken,
+    );
 
     this.router.get('/keeplogin', verifyToken, this.authController.keepLogin);
     this.router.post(
@@ -38,7 +43,7 @@ export class AuthRouter {
       verifyToken,
       this.authController.resetPassword,
     );
-    this.router.post('/logout', this.authController.logout);
+    this.router.post('/logout', verifyToken, this.authController.logout);
   }
   getRouter(): Router {
     return this.router;

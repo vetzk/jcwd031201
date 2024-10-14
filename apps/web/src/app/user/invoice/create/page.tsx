@@ -46,6 +46,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ProductDetails, ProductType } from '../type';
 import usePaymentMethod from '@/helper/usePaymentMethod';
 import Preview from './Preview';
+import { UserContext } from '@/contexts/UserContext';
 
 interface ICreateInvoiceProps {}
 
@@ -152,23 +153,24 @@ const ProductForm = ({
 );
 
 const CreateInvoice: React.FunctionComponent<ICreateInvoiceProps> = (props) => {
+  const { user } = React.useContext(UserContext);
   const [date, setDate] = React.useState<Date | null>(null);
   const [checked, setChecked] = React.useState<boolean>(false);
   const [clientVal, setClientVal] = React.useState<string>('');
   const [paymentVal, setPaymentVal] = React.useState<string>('');
   const [clientName, setClientName] = React.useState<string>('');
   const [clientPay, setClientPay] = React.useState<string>('');
-  const token = localStorage.getItem('token') || '';
+  // const token = localStorage.getItem('token') || '';
   const {
     data: products,
     isError: productError,
     isLoading: productLoading,
-  } = useProduct(token);
+  } = useProduct('token');
   const {
     data: details,
     isError: detailsError,
     isLoading: detailsLoading,
-  } = usePaymentDetails(token);
+  } = usePaymentDetails('token');
   const [clientAddress, setClientAddress] = React.useState<string>('');
   const [clientPhone, setClientPhone] = React.useState<string>('');
   const [clientEmail, setClientEmail] = React.useState<string>('');
@@ -227,69 +229,6 @@ const CreateInvoice: React.FunctionComponent<ICreateInvoiceProps> = (props) => {
     setInvoiceProducts((prev) => prev.filter((_, i) => i !== index));
   };
 
-  // const handleProductChange = (
-  //   index: number,
-  //   key: string,
-  //   value: string | number,
-  // ) => {
-  //   const updatedProducts = [...invoiceProducts];
-
-  //   // Update the specific field (name, quantity, priceUnit, total)
-  //   updatedProducts[index] = { ...updatedProducts[index], [key]: value };
-
-  //   if (key === 'name') {
-  //     // Handle product selection and price update
-  //     const selectedProd = products?.result.find(
-  //       (p: any) => p.productCode === value,
-  //     );
-  //     console.log(selectedProd);
-
-  //     const updatedSelectedProducts = [...selectedProducts];
-  //     updatedSelectedProducts[index] = selectedProd;
-
-  //     updatedProducts[index].productName = selectedProd.name || '';
-  //     updatedProducts[index].priceUnit = selectedProd?.price || 0;
-  //     updatedProducts[index].total =
-  //       selectedProd?.price * updatedProducts[index].quantity || 0;
-
-  //     setSelectedProducts(updatedSelectedProducts);
-  //     setInvoiceProducts(updatedProducts);
-  //   }
-
-  //   if (key === 'quantity') {
-  //     const selectedProd =
-  //       products?.result.find((p: any) => p.productCode === value) || null;
-  //     console.log('select' + selectedProd);
-
-  //     const updatedSelectedProducts = [...selectedProducts];
-  //     console.log('update' + updatedSelectedProducts);
-
-  //     updatedSelectedProducts[index] = selectedProd;
-
-  //     updatedProducts[index].productName = selectedProd.name || '';
-  //     updatedProducts[index].priceUnit = selectedProd?.price || 0;
-  //     updatedProducts[index].total =
-  //       selectedProd?.price * updatedProducts[index].quantity || 0;
-  //     // Calculate total when quantity changes
-  //     const priceUnit = updatedProducts[index].priceUnit || 0;
-  //     const quantity = parseInt(value as string, 10) || 0;
-  //     const quantityUpdated = parseInt(value as string, 10) || 0;
-
-  //     invoiceProducts[index].quantity = quantity;
-  //     updatedProducts[index].quantity = quantity;
-  //     console.log(quantity);
-
-  //     updatedProducts[index].total = priceUnit * quantity;
-  //     setInvoiceProducts(updatedProducts);
-  //     console.log(updatedProducts);
-  //     console.log(invoiceProducts);
-
-  //     // Ensure quantity and total are updated
-  //   } else {
-  //     setInvoiceProducts(updatedProducts); // Update for other fields
-  //   }
-  // };
-
   const mutation = useMutation({
     mutationFn: async () => {
       const productCodes = invoiceProducts.map((product) => product.name);
@@ -319,11 +258,11 @@ const CreateInvoice: React.FunctionComponent<ICreateInvoiceProps> = (props) => {
           productCodes,
           qtys,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
+        // {
+        //   headers: {
+        //     Authorization: `Bearer ${token}`,
+        //   },
+        // },
       );
       return data;
     },
@@ -485,7 +424,7 @@ const CreateInvoice: React.FunctionComponent<ICreateInvoiceProps> = (props) => {
     }
   };
 
-  const { data: client, isError, isLoading } = useClient(token);
+  const { data: client, isError, isLoading } = useClient('token');
   const {
     data: method,
     isError: methodError,
@@ -497,13 +436,16 @@ const CreateInvoice: React.FunctionComponent<ICreateInvoiceProps> = (props) => {
     isLoading: payLoading,
   } = usePayment();
 
-  React.useEffect(() => {
-    console.log(client);
+  if (!user?.isVerified) {
+    return (
+      <div className="w-full flex justify-center items-center min-h-screen">
+        <p className="text-2xl">
+          Please Verify first before you can access our features
+        </p>
+      </div>
+    );
+  }
 
-    console.log(details);
-
-    console.log(payment);
-  }, [client, products, date, payment, details]);
   return (
     <div className="w-full">
       <ToastContainer />

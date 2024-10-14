@@ -23,13 +23,8 @@ export class InvoiceController {
       accountName,
       accountNumber,
       clientPayment,
-      lastName,
-      firstName,
       addRecurringDate,
       date,
-      companyName,
-      userAddress,
-      userPhone,
     } = req.body;
 
     try {
@@ -125,11 +120,21 @@ export class InvoiceController {
             });
           }
         }
+        let findClient = await prisma.client.findUnique({
+          where: { clientCode },
+        });
 
         const cliCode = 'CLI-' + uuid();
         const findClientPayment = await prisma.clientpayment.findFirst({
           where: {
-            paymentMethod: clientPayment,
+            OR: [
+              {
+                id: findClient?.payId, // Search by id if available
+              },
+              {
+                paymentMethod: clientPayment, // Search by paymentMethod if id is not present
+              },
+            ],
           },
         });
 
@@ -139,9 +144,6 @@ export class InvoiceController {
             message: 'Cannot find payment method',
           });
         }
-        let findClient = await prisma.client.findUnique({
-          where: { clientCode },
-        });
 
         if (!findClient) {
           findClient = await prisma.client.create({
@@ -404,6 +406,7 @@ export class InvoiceController {
       phone,
       email,
       qtys,
+      date,
     } = req.body;
 
     const { invoiceCode } = req.params;
@@ -485,7 +488,7 @@ export class InvoiceController {
         });
       }
 
-      let newNextInvoiceDate = findInvoice.nextInvoiceDate;
+      let newNextInvoiceDate = findInvoice.invoiceDate;
       if (addRecurringDate) {
         newNextInvoiceDate = new Date();
         newNextInvoiceDate.setDate(
@@ -544,8 +547,9 @@ export class InvoiceController {
 
         const updatedInvoice = await prisma.invoice.update({
           data: {
+            invoiceDate: date ? date : findInvoice.invoiceDate,
             invoiceStatus: invoiceStatus || findInvoice.invoiceStatus,
-            nextInvoiceDate: nextInvoiceDate || newNextInvoiceDate,
+            nextInvoiceDate: newNextInvoiceDate,
             totalAmount,
             recurringDays: Number(addRecurringDate),
             subTotal,

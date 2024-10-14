@@ -51,11 +51,7 @@ const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
     onSuccess: (data) => {
       setIsDialogOpen(false);
       localStorage.removeItem('token');
-      setUser({
-        email: '',
-        username: '',
-        identificationId: '',
-      });
+      setUser(null);
       setIsMenuOpen(false);
       toast('Logout success', {
         onClose: () => {

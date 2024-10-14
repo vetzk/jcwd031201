@@ -93,15 +93,14 @@ const configChart = {
 
 const Dashboard: React.FunctionComponent<IDashboardProps> = (props) => {
   const [name, setName] = React.useState<string>('');
-  const token = localStorage.getItem('token') || '';
   const { user } = React.useContext(UserContext);
-  const { data: profile, isError, isLoading } = useProfile(token);
+  const { data: profile, isError, isLoading } = useProfile('token');
   const totalVisitors = React.useMemo(() => {
     return chartData.reduce((acc, curr) => acc + curr.desktop, 0);
   }, []);
   React.useEffect(() => {
     if (profile) {
-      setName(profile.result.findProfile.firstName);
+      setName(profile.result.findProfile?.firstName);
     }
   }, [profile]);
 

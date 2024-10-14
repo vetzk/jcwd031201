@@ -24,6 +24,7 @@ import apiCall from '@/helper/apiCall';
 interface IResetPasswordProps {}
 
 const ResetPassword: React.FunctionComponent<IResetPasswordProps> = (props) => {
+  const [resetToken, setResetToken] = React.useState<string>('');
   const router = useRouter();
   const { token } = useParams();
   const [password, setPassword] = React.useState<string>('');
@@ -122,6 +123,40 @@ const ResetPassword: React.FunctionComponent<IResetPasswordProps> = (props) => {
   const handleResetPass = () => {
     mutation.mutate();
   };
+
+  React.useEffect(() => {
+    const validateToken = async () => {
+      try {
+        const { data } = await apiCall.get(`/api/auth/validate`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        console.log(data.result);
+
+        setResetToken(data.result);
+      } catch (error: any) {
+        if (error.response.status === 401) {
+          toast('Reset link has expired Please request a new one', {
+            onClose: () => router.replace('/forgot-password'),
+          });
+        }
+      }
+    };
+
+    validateToken();
+    console.log(token);
+  }, [router, token]);
+
+  if (resetToken !== token) {
+    return (
+      <div className="flex justify-center items-center w-full min-h-screen text-xl text-black">
+        Please go back to login page because the link has expired
+      </div>
+    );
+  }
+
   return (
     <div className="w-full min-h-screen flex gap-20 px-10 pt-32 mb-10">
       <ToastContainer />

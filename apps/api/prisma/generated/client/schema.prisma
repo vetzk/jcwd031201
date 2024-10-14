@@ -130,6 +130,9 @@ model user {
   lastLoginAttempt DateTime         @default(now()) @db.Timestamp(0)
   loginAttempt     Int              @default(0)
   isVerified       Boolean          @default(false)
+  resetToken       String?
+  resetTokenExpiry DateTime?
+  sessionToken     String?
   client           client[]
   invoice          invoice[]
   paymentdetails   paymentdetails[]

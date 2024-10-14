@@ -10329,6 +10329,9 @@ export namespace Prisma {
     lastLoginAttempt: Date | null
     loginAttempt: number | null
     isVerified: boolean | null
+    resetToken: string | null
+    resetTokenExpiry: Date | null
+    sessionToken: string | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -10342,6 +10345,9 @@ export namespace Prisma {
     lastLoginAttempt: Date | null
     loginAttempt: number | null
     isVerified: boolean | null
+    resetToken: string | null
+    resetTokenExpiry: Date | null
+    sessionToken: string | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -10355,6 +10361,9 @@ export namespace Prisma {
     lastLoginAttempt: number
     loginAttempt: number
     isVerified: number
+    resetToken: number
+    resetTokenExpiry: number
+    sessionToken: number
     _all: number
   }
 
@@ -10380,6 +10389,9 @@ export namespace Prisma {
     lastLoginAttempt?: true
     loginAttempt?: true
     isVerified?: true
+    resetToken?: true
+    resetTokenExpiry?: true
+    sessionToken?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -10393,6 +10405,9 @@ export namespace Prisma {
     lastLoginAttempt?: true
     loginAttempt?: true
     isVerified?: true
+    resetToken?: true
+    resetTokenExpiry?: true
+    sessionToken?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -10406,6 +10421,9 @@ export namespace Prisma {
     lastLoginAttempt?: true
     loginAttempt?: true
     isVerified?: true
+    resetToken?: true
+    resetTokenExpiry?: true
+    sessionToken?: true
     _all?: true
   }
 
@@ -10506,6 +10524,9 @@ export namespace Prisma {
     lastLoginAttempt: Date
     loginAttempt: number
     isVerified: boolean
+    resetToken: string | null
+    resetTokenExpiry: Date | null
+    sessionToken: string | null
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
     _sum: UserSumAggregateOutputType | null
@@ -10538,6 +10559,9 @@ export namespace Prisma {
     lastLoginAttempt?: boolean
     loginAttempt?: boolean
     isVerified?: boolean
+    resetToken?: boolean
+    resetTokenExpiry?: boolean
+    sessionToken?: boolean
     client?: boolean | user$clientArgs<ExtArgs>
     invoice?: boolean | user$invoiceArgs<ExtArgs>
     paymentdetails?: boolean | user$paymentdetailsArgs<ExtArgs>
@@ -10557,6 +10581,9 @@ export namespace Prisma {
     lastLoginAttempt?: boolean
     loginAttempt?: boolean
     isVerified?: boolean
+    resetToken?: boolean
+    resetTokenExpiry?: boolean
+    sessionToken?: boolean
   }
 
 
@@ -10590,6 +10617,9 @@ export namespace Prisma {
       lastLoginAttempt: Date
       loginAttempt: number
       isVerified: boolean
+      resetToken: string | null
+      resetTokenExpiry: Date | null
+      sessionToken: string | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -11029,6 +11059,9 @@ export namespace Prisma {
     readonly lastLoginAttempt: FieldRef<"user", 'DateTime'>
     readonly loginAttempt: FieldRef<"user", 'Int'>
     readonly isVerified: FieldRef<"user", 'Boolean'>
+    readonly resetToken: FieldRef<"user", 'String'>
+    readonly resetTokenExpiry: FieldRef<"user", 'DateTime'>
+    readonly sessionToken: FieldRef<"user", 'String'>
   }
     
 
@@ -12631,7 +12664,10 @@ export namespace Prisma {
     isBlocked: 'isBlocked',
     lastLoginAttempt: 'lastLoginAttempt',
     loginAttempt: 'loginAttempt',
-    isVerified: 'isVerified'
+    isVerified: 'isVerified',
+    resetToken: 'resetToken',
+    resetTokenExpiry: 'resetTokenExpiry',
+    sessionToken: 'sessionToken'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -13365,6 +13401,9 @@ export namespace Prisma {
     lastLoginAttempt?: DateTimeFilter<"user"> | Date | string
     loginAttempt?: IntFilter<"user"> | number
     isVerified?: BoolFilter<"user"> | boolean
+    resetToken?: StringNullableFilter<"user"> | string | null
+    resetTokenExpiry?: DateTimeNullableFilter<"user"> | Date | string | null
+    sessionToken?: StringNullableFilter<"user"> | string | null
     client?: ClientListRelationFilter
     invoice?: InvoiceListRelationFilter
     paymentdetails?: PaymentdetailsListRelationFilter
@@ -13383,6 +13422,9 @@ export namespace Prisma {
     lastLoginAttempt?: SortOrder
     loginAttempt?: SortOrder
     isVerified?: SortOrder
+    resetToken?: SortOrderInput | SortOrder
+    resetTokenExpiry?: SortOrderInput | SortOrder
+    sessionToken?: SortOrderInput | SortOrder
     client?: clientOrderByRelationAggregateInput
     invoice?: invoiceOrderByRelationAggregateInput
     paymentdetails?: paymentdetailsOrderByRelationAggregateInput
@@ -13404,6 +13446,9 @@ export namespace Prisma {
     lastLoginAttempt?: DateTimeFilter<"user"> | Date | string
     loginAttempt?: IntFilter<"user"> | number
     isVerified?: BoolFilter<"user"> | boolean
+    resetToken?: StringNullableFilter<"user"> | string | null
+    resetTokenExpiry?: DateTimeNullableFilter<"user"> | Date | string | null
+    sessionToken?: StringNullableFilter<"user"> | string | null
     client?: ClientListRelationFilter
     invoice?: InvoiceListRelationFilter
     paymentdetails?: PaymentdetailsListRelationFilter
@@ -13422,6 +13467,9 @@ export namespace Prisma {
     lastLoginAttempt?: SortOrder
     loginAttempt?: SortOrder
     isVerified?: SortOrder
+    resetToken?: SortOrderInput | SortOrder
+    resetTokenExpiry?: SortOrderInput | SortOrder
+    sessionToken?: SortOrderInput | SortOrder
     _count?: userCountOrderByAggregateInput
     _avg?: userAvgOrderByAggregateInput
     _max?: userMaxOrderByAggregateInput
@@ -13443,6 +13491,9 @@ export namespace Prisma {
     lastLoginAttempt?: DateTimeWithAggregatesFilter<"user"> | Date | string
     loginAttempt?: IntWithAggregatesFilter<"user"> | number
     isVerified?: BoolWithAggregatesFilter<"user"> | boolean
+    resetToken?: StringNullableWithAggregatesFilter<"user"> | string | null
+    resetTokenExpiry?: DateTimeNullableWithAggregatesFilter<"user"> | Date | string | null
+    sessionToken?: StringNullableWithAggregatesFilter<"user"> | string | null
   }
 
   export type userprofileWhereInput = {
@@ -14083,6 +14134,9 @@ export namespace Prisma {
     lastLoginAttempt?: Date | string
     loginAttempt?: number
     isVerified?: boolean
+    resetToken?: string | null
+    resetTokenExpiry?: Date | string | null
+    sessionToken?: string | null
     client?: clientCreateNestedManyWithoutUserInput
     invoice?: invoiceCreateNestedManyWithoutUserInput
     paymentdetails?: paymentdetailsCreateNestedManyWithoutUserInput
@@ -14101,6 +14155,9 @@ export namespace Prisma {
     lastLoginAttempt?: Date | string
     loginAttempt?: number
     isVerified?: boolean
+    resetToken?: string | null
+    resetTokenExpiry?: Date | string | null
+    sessionToken?: string | null
     client?: clientUncheckedCreateNestedManyWithoutUserInput
     invoice?: invoiceUncheckedCreateNestedManyWithoutUserInput
     paymentdetails?: paymentdetailsUncheckedCreateNestedManyWithoutUserInput
@@ -14118,6 +14175,9 @@ export namespace Prisma {
     lastLoginAttempt?: DateTimeFieldUpdateOperationsInput | Date | string
     loginAttempt?: IntFieldUpdateOperationsInput | number
     isVerified?: BoolFieldUpdateOperationsInput | boolean
+    resetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     client?: clientUpdateManyWithoutUserNestedInput
     invoice?: invoiceUpdateManyWithoutUserNestedInput
     paymentdetails?: paymentdetailsUpdateManyWithoutUserNestedInput
@@ -14136,6 +14196,9 @@ export namespace Prisma {
     lastLoginAttempt?: DateTimeFieldUpdateOperationsInput | Date | string
     loginAttempt?: IntFieldUpdateOperationsInput | number
     isVerified?: BoolFieldUpdateOperationsInput | boolean
+    resetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     client?: clientUncheckedUpdateManyWithoutUserNestedInput
     invoice?: invoiceUncheckedUpdateManyWithoutUserNestedInput
     paymentdetails?: paymentdetailsUncheckedUpdateManyWithoutUserNestedInput
@@ -14154,6 +14217,9 @@ export namespace Prisma {
     lastLoginAttempt?: Date | string
     loginAttempt?: number
     isVerified?: boolean
+    resetToken?: string | null
+    resetTokenExpiry?: Date | string | null
+    sessionToken?: string | null
   }
 
   export type userUpdateManyMutationInput = {
@@ -14166,6 +14232,9 @@ export namespace Prisma {
     lastLoginAttempt?: DateTimeFieldUpdateOperationsInput | Date | string
     loginAttempt?: IntFieldUpdateOperationsInput | number
     isVerified?: BoolFieldUpdateOperationsInput | boolean
+    resetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type userUncheckedUpdateManyInput = {
@@ -14179,6 +14248,9 @@ export namespace Prisma {
     lastLoginAttempt?: DateTimeFieldUpdateOperationsInput | Date | string
     loginAttempt?: IntFieldUpdateOperationsInput | number
     isVerified?: BoolFieldUpdateOperationsInput | boolean
+    resetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type userprofileCreateInput = {
@@ -14882,6 +14954,17 @@ export namespace Prisma {
     categoryId?: SortOrder
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type UserprofileListRelationFilter = {
     every?: userprofileWhereInput
     some?: userprofileWhereInput
@@ -14903,6 +14986,9 @@ export namespace Prisma {
     lastLoginAttempt?: SortOrder
     loginAttempt?: SortOrder
     isVerified?: SortOrder
+    resetToken?: SortOrder
+    resetTokenExpiry?: SortOrder
+    sessionToken?: SortOrder
   }
 
   export type userAvgOrderByAggregateInput = {
@@ -14921,6 +15007,9 @@ export namespace Prisma {
     lastLoginAttempt?: SortOrder
     loginAttempt?: SortOrder
     isVerified?: SortOrder
+    resetToken?: SortOrder
+    resetTokenExpiry?: SortOrder
+    sessionToken?: SortOrder
   }
 
   export type userMinOrderByAggregateInput = {
@@ -14934,11 +15023,28 @@ export namespace Prisma {
     lastLoginAttempt?: SortOrder
     loginAttempt?: SortOrder
     isVerified?: SortOrder
+    resetToken?: SortOrder
+    resetTokenExpiry?: SortOrder
+    sessionToken?: SortOrder
   }
 
   export type userSumOrderByAggregateInput = {
     id?: SortOrder
     loginAttempt?: SortOrder
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type userprofileCountOrderByAggregateInput = {
@@ -15544,6 +15650,10 @@ export namespace Prisma {
     connect?: userprofileWhereUniqueInput | userprofileWhereUniqueInput[]
   }
 
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
   export type clientUpdateManyWithoutUserNestedInput = {
     create?: XOR<clientCreateWithoutUserInput, clientUncheckedCreateWithoutUserInput> | clientCreateWithoutUserInput[] | clientUncheckedCreateWithoutUserInput[]
     connectOrCreate?: clientCreateOrConnectWithoutUserInput | clientCreateOrConnectWithoutUserInput[]
@@ -15898,6 +16008,31 @@ export namespace Prisma {
     _max?: NestedEnumpaymentmethodFilter<$PrismaModel>
   }
 
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type productCreateWithoutCategoryInput = {
     productCode: string
     name: string
@@ -15972,6 +16107,9 @@ export namespace Prisma {
     lastLoginAttempt?: Date | string
     loginAttempt?: number
     isVerified?: boolean
+    resetToken?: string | null
+    resetTokenExpiry?: Date | string | null
+    sessionToken?: string | null
     invoice?: invoiceCreateNestedManyWithoutUserInput
     paymentdetails?: paymentdetailsCreateNestedManyWithoutUserInput
     product?: productCreateNestedManyWithoutUserInput
@@ -15989,6 +16127,9 @@ export namespace Prisma {
     lastLoginAttempt?: Date | string
     loginAttempt?: number
     isVerified?: boolean
+    resetToken?: string | null
+    resetTokenExpiry?: Date | string | null
+    sessionToken?: string | null
     invoice?: invoiceUncheckedCreateNestedManyWithoutUserInput
     paymentdetails?: paymentdetailsUncheckedCreateNestedManyWithoutUserInput
     product?: productUncheckedCreateNestedManyWithoutUserInput
@@ -16078,6 +16219,9 @@ export namespace Prisma {
     lastLoginAttempt?: DateTimeFieldUpdateOperationsInput | Date | string
     loginAttempt?: IntFieldUpdateOperationsInput | number
     isVerified?: BoolFieldUpdateOperationsInput | boolean
+    resetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     invoice?: invoiceUpdateManyWithoutUserNestedInput
     paymentdetails?: paymentdetailsUpdateManyWithoutUserNestedInput
     product?: productUpdateManyWithoutUserNestedInput
@@ -16095,6 +16239,9 @@ export namespace Prisma {
     lastLoginAttempt?: DateTimeFieldUpdateOperationsInput | Date | string
     loginAttempt?: IntFieldUpdateOperationsInput | number
     isVerified?: BoolFieldUpdateOperationsInput | boolean
+    resetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     invoice?: invoiceUncheckedUpdateManyWithoutUserNestedInput
     paymentdetails?: paymentdetailsUncheckedUpdateManyWithoutUserNestedInput
     product?: productUncheckedUpdateManyWithoutUserNestedInput
@@ -16222,6 +16369,9 @@ export namespace Prisma {
     lastLoginAttempt?: Date | string
     loginAttempt?: number
     isVerified?: boolean
+    resetToken?: string | null
+    resetTokenExpiry?: Date | string | null
+    sessionToken?: string | null
     client?: clientCreateNestedManyWithoutUserInput
     paymentdetails?: paymentdetailsCreateNestedManyWithoutUserInput
     product?: productCreateNestedManyWithoutUserInput
@@ -16239,6 +16389,9 @@ export namespace Prisma {
     lastLoginAttempt?: Date | string
     loginAttempt?: number
     isVerified?: boolean
+    resetToken?: string | null
+    resetTokenExpiry?: Date | string | null
+    sessionToken?: string | null
     client?: clientUncheckedCreateNestedManyWithoutUserInput
     paymentdetails?: paymentdetailsUncheckedCreateNestedManyWithoutUserInput
     product?: productUncheckedCreateNestedManyWithoutUserInput
@@ -16364,6 +16517,9 @@ export namespace Prisma {
     lastLoginAttempt?: DateTimeFieldUpdateOperationsInput | Date | string
     loginAttempt?: IntFieldUpdateOperationsInput | number
     isVerified?: BoolFieldUpdateOperationsInput | boolean
+    resetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     client?: clientUpdateManyWithoutUserNestedInput
     paymentdetails?: paymentdetailsUpdateManyWithoutUserNestedInput
     product?: productUpdateManyWithoutUserNestedInput
@@ -16381,6 +16537,9 @@ export namespace Prisma {
     lastLoginAttempt?: DateTimeFieldUpdateOperationsInput | Date | string
     loginAttempt?: IntFieldUpdateOperationsInput | number
     isVerified?: BoolFieldUpdateOperationsInput | boolean
+    resetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     client?: clientUncheckedUpdateManyWithoutUserNestedInput
     paymentdetails?: paymentdetailsUncheckedUpdateManyWithoutUserNestedInput
     product?: productUncheckedUpdateManyWithoutUserNestedInput
@@ -16582,6 +16741,9 @@ export namespace Prisma {
     lastLoginAttempt?: Date | string
     loginAttempt?: number
     isVerified?: boolean
+    resetToken?: string | null
+    resetTokenExpiry?: Date | string | null
+    sessionToken?: string | null
     client?: clientCreateNestedManyWithoutUserInput
     invoice?: invoiceCreateNestedManyWithoutUserInput
     product?: productCreateNestedManyWithoutUserInput
@@ -16599,6 +16761,9 @@ export namespace Prisma {
     lastLoginAttempt?: Date | string
     loginAttempt?: number
     isVerified?: boolean
+    resetToken?: string | null
+    resetTokenExpiry?: Date | string | null
+    sessionToken?: string | null
     client?: clientUncheckedCreateNestedManyWithoutUserInput
     invoice?: invoiceUncheckedCreateNestedManyWithoutUserInput
     product?: productUncheckedCreateNestedManyWithoutUserInput
@@ -16694,6 +16859,9 @@ export namespace Prisma {
     lastLoginAttempt?: DateTimeFieldUpdateOperationsInput | Date | string
     loginAttempt?: IntFieldUpdateOperationsInput | number
     isVerified?: BoolFieldUpdateOperationsInput | boolean
+    resetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     client?: clientUpdateManyWithoutUserNestedInput
     invoice?: invoiceUpdateManyWithoutUserNestedInput
     product?: productUpdateManyWithoutUserNestedInput
@@ -16711,6 +16879,9 @@ export namespace Prisma {
     lastLoginAttempt?: DateTimeFieldUpdateOperationsInput | Date | string
     loginAttempt?: IntFieldUpdateOperationsInput | number
     isVerified?: BoolFieldUpdateOperationsInput | boolean
+    resetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     client?: clientUncheckedUpdateManyWithoutUserNestedInput
     invoice?: invoiceUncheckedUpdateManyWithoutUserNestedInput
     product?: productUncheckedUpdateManyWithoutUserNestedInput
@@ -16911,6 +17082,9 @@ export namespace Prisma {
     lastLoginAttempt?: Date | string
     loginAttempt?: number
     isVerified?: boolean
+    resetToken?: string | null
+    resetTokenExpiry?: Date | string | null
+    sessionToken?: string | null
     client?: clientCreateNestedManyWithoutUserInput
     invoice?: invoiceCreateNestedManyWithoutUserInput
     paymentdetails?: paymentdetailsCreateNestedManyWithoutUserInput
@@ -16928,6 +17102,9 @@ export namespace Prisma {
     lastLoginAttempt?: Date | string
     loginAttempt?: number
     isVerified?: boolean
+    resetToken?: string | null
+    resetTokenExpiry?: Date | string | null
+    sessionToken?: string | null
     client?: clientUncheckedCreateNestedManyWithoutUserInput
     invoice?: invoiceUncheckedCreateNestedManyWithoutUserInput
     paymentdetails?: paymentdetailsUncheckedCreateNestedManyWithoutUserInput
@@ -16998,6 +17175,9 @@ export namespace Prisma {
     lastLoginAttempt?: DateTimeFieldUpdateOperationsInput | Date | string
     loginAttempt?: IntFieldUpdateOperationsInput | number
     isVerified?: BoolFieldUpdateOperationsInput | boolean
+    resetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     client?: clientUpdateManyWithoutUserNestedInput
     invoice?: invoiceUpdateManyWithoutUserNestedInput
     paymentdetails?: paymentdetailsUpdateManyWithoutUserNestedInput
@@ -17015,6 +17195,9 @@ export namespace Prisma {
     lastLoginAttempt?: DateTimeFieldUpdateOperationsInput | Date | string
     loginAttempt?: IntFieldUpdateOperationsInput | number
     isVerified?: BoolFieldUpdateOperationsInput | boolean
+    resetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     client?: clientUncheckedUpdateManyWithoutUserNestedInput
     invoice?: invoiceUncheckedUpdateManyWithoutUserNestedInput
     paymentdetails?: paymentdetailsUncheckedUpdateManyWithoutUserNestedInput
@@ -17298,6 +17481,9 @@ export namespace Prisma {
     lastLoginAttempt?: Date | string
     loginAttempt?: number
     isVerified?: boolean
+    resetToken?: string | null
+    resetTokenExpiry?: Date | string | null
+    sessionToken?: string | null
     client?: clientCreateNestedManyWithoutUserInput
     invoice?: invoiceCreateNestedManyWithoutUserInput
     paymentdetails?: paymentdetailsCreateNestedManyWithoutUserInput
@@ -17315,6 +17501,9 @@ export namespace Prisma {
     lastLoginAttempt?: Date | string
     loginAttempt?: number
     isVerified?: boolean
+    resetToken?: string | null
+    resetTokenExpiry?: Date | string | null
+    sessionToken?: string | null
     client?: clientUncheckedCreateNestedManyWithoutUserInput
     invoice?: invoiceUncheckedCreateNestedManyWithoutUserInput
     paymentdetails?: paymentdetailsUncheckedCreateNestedManyWithoutUserInput
@@ -17347,6 +17536,9 @@ export namespace Prisma {
     lastLoginAttempt?: DateTimeFieldUpdateOperationsInput | Date | string
     loginAttempt?: IntFieldUpdateOperationsInput | number
     isVerified?: BoolFieldUpdateOperationsInput | boolean
+    resetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     client?: clientUpdateManyWithoutUserNestedInput
     invoice?: invoiceUpdateManyWithoutUserNestedInput
     paymentdetails?: paymentdetailsUpdateManyWithoutUserNestedInput
@@ -17364,6 +17556,9 @@ export namespace Prisma {
     lastLoginAttempt?: DateTimeFieldUpdateOperationsInput | Date | string
     loginAttempt?: IntFieldUpdateOperationsInput | number
     isVerified?: BoolFieldUpdateOperationsInput | boolean
+    resetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     client?: clientUncheckedUpdateManyWithoutUserNestedInput
     invoice?: invoiceUncheckedUpdateManyWithoutUserNestedInput
     paymentdetails?: paymentdetailsUncheckedUpdateManyWithoutUserNestedInput

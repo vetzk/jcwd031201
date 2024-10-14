@@ -1,9 +1,7 @@
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { body, validationResult } from 'express-validator';
 
-export const createInvoiceValidation = [
-  body('clientCode').notEmpty().withMessage('please provide the client'),
-
+export const updateInvoiceValidation = [
   body('name')
     .if((value, { req }) => !req.body.clientCode)
     .notEmpty()
@@ -23,14 +21,10 @@ export const createInvoiceValidation = [
     .notEmpty()
     .withMessage('Please provide client email'),
   body('invoiceStatus').notEmpty().withMessage('Please provide status invoice'),
+  body('date').notEmpty().withMessage('Please provide due date'),
   body('addRecurringDate')
     .notEmpty()
     .withMessage('Please provide recurring date'),
-  body('date').notEmpty().withMessage('Please provide due date'),
-  body('clientPayment')
-    .if((value, { req }) => !req.body.clientCode)
-    .notEmpty()
-    .withMessage('Please provide client payment options'),
   body('qtys')
     .isArray({
       min: 1,

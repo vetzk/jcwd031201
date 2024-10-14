@@ -64,24 +64,24 @@ const Register: React.FunctionComponent<IRegisterProps> = (props) => {
       setIsLoading(true);
       setIsDialogOpen(false);
       localStorage.setItem('token', data.result.token);
-
       toast('Register success', {
         onClose: () => {
           setUser({
             username: data.result.username,
             email: data.result.email,
             identificationId: data.result.identificationId,
+            isVerified: data.result.isVerified,
           });
           setIsLoading(false);
-          router.replace('/verify');
+          router.replace('/user/profile');
         },
       });
     },
     onError: (error: any) => {
       setIsLoading(false);
       setIsDialogOpen(false);
-      toast(error.response.data.error.errors[0].msg);
-      console.log(error.response.data.error.errors[0]);
+      console.log(error);
+      toast(error.response.data.message);
     },
   });
 

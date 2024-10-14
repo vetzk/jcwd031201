@@ -48,11 +48,7 @@ const Sidebar: React.FunctionComponent<ISidebarProps> = (props) => {
       setIsDialogUpOpen(false);
       setIsDialogBottomOpen(false);
       localStorage.removeItem('token');
-      setUser({
-        email: '',
-        username: '',
-        identificationId: '',
-      });
+      setUser(null);
       toast('Logout success', {
         onClose: () => {
           router.replace('/login');
@@ -174,7 +170,6 @@ const Sidebar: React.FunctionComponent<ISidebarProps> = (props) => {
                     <AlertDialogTitle>
                       Are you sure you want to log out?
                     </AlertDialogTitle>
-                    <AlertDialogDescription>Make sure</AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
                     <AlertDialogCancel

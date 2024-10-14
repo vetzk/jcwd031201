@@ -22,18 +22,18 @@ const UserProvider: React.FunctionComponent<IUserProviderProps> = ({
   const [user, setUser] = React.useState<UserType | null>(null);
   const [loading, setLoading] = React.useState<boolean>(true);
 
-  const checkToken = localStorage.getItem('token');
+  // const checkToken = localStorage.getItem('token');
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['auth'],
     queryFn: async () => {
-      if (!checkToken) {
-        return null;
-      }
+      // if (!checkToken) {
+      //   return null;
+      // }
       const { data } = await apiCall.get('/api/auth/keeplogin', {
-        headers: {
-          Authorization: `Bearer ${checkToken}`,
-        },
+        // headers: {
+        //   Authorization: `Bearer ${checkToken}`,
+        // },
       });
       console.log(data);
       localStorage.setItem('token', data.result.token);
@@ -41,22 +41,22 @@ const UserProvider: React.FunctionComponent<IUserProviderProps> = ({
         email: data.result.email,
         identificationId: data.result.identificationId,
         username: data.result.username,
+        isVerified: data.result.isVerified,
       });
 
       return data;
     },
-    enabled: !!checkToken,
   });
 
   useEffect(() => {
-    if (data) {
+    if (data || isError) {
       setLoading(false);
     }
 
-    if (!checkToken || isError) {
-      setLoading(false);
-    }
-  }, [checkToken, data, isError]);
+    // if (!user) {
+    //   setLoading(false);
+    // }
+  }, [data, isError, user]);
   return (
     <UserContext.Provider value={{ user, setUser, loading, setLoading }}>
       {children}

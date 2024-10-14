@@ -6,9 +6,9 @@ const usePaymentDetails = (token: string) => {
     queryKey: ['payment-details'],
     queryFn: async () => {
       const { data } = await apiCall.get('/api/payment/details', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        // headers: {
+        //   Authorization: `Bearer ${token}`,
+        // },
       });
       return data;
     },
