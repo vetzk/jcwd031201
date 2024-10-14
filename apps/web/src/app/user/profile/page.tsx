@@ -421,8 +421,19 @@ const Profile: React.FunctionComponent<IProfileProps> = (props) => {
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                 />
-                {error.phoneNumber && (
-                  <p className="text-red-500">{error.phoneNumber}</p>
+                {error.phone && <p className="text-red-500">{error.phone}</p>}
+              </div>
+              <div className="w-full flex flex-col gap-3">
+                <Label>Address</Label>
+                <Input
+                  className="w-full sm:w-1/2"
+                  placeholder="Your address"
+                  type="text"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                />
+                {error.address && (
+                  <p className="text-red-500">{error.address}</p>
                 )}
               </div>
             </div>

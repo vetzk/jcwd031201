@@ -38,6 +38,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import Alert from '@/components/Alert';
 
 interface IInvoiceProps {}
 
@@ -300,7 +301,7 @@ const Invoice: React.FunctionComponent<IInvoiceProps> = (props) => {
                   onChange={(e) => setSearchInput(e.target.value)}
                 />
                 <div className="w-full md:w-1/2 flex items-center gap-2 md:gap-5">
-                  <div>
+                  <div className="z-50">
                     <DatePicker
                       className="border-slate-200 shadow-sm border border-solid rounded-md md:w-auto w-full p-2"
                       placeholderText="From"
@@ -308,7 +309,7 @@ const Invoice: React.FunctionComponent<IInvoiceProps> = (props) => {
                       onChange={(date) => setStartDateSearch(date)}
                     />
                   </div>
-                  <div>
+                  <div className="z-50">
                     <DatePicker
                       className="border-slate-200 shadow-sm border border-solid rounded-md p-2 md:w-auto w-full"
                       placeholderText="To"
@@ -365,6 +366,14 @@ const Invoice: React.FunctionComponent<IInvoiceProps> = (props) => {
                 </Button>
               </div>
             </div>
+            <Alert
+              isDialogOpen={isDialogOpen}
+              setIsDialogOpen={setIsDialogOpen}
+              title={'Are you sure you want to delete your invoice?'}
+              description={'This action cannot be reversed'}
+              actionText={'Delete Invoice'}
+              handleFunc={handleDeleteInvoice}
+            />
 
             {/* Table Section */}
             <div className="w-full p-3 md:p-5 z-10">
