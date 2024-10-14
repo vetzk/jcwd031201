@@ -1,5 +1,6 @@
 import { InvoiceController } from '@/controllers/invoice.controller';
 import { createInvoiceValidation } from '@/middleware/validator/createInvoice';
+import { updateInvoiceValidation } from '@/middleware/validator/updateInvoice';
 import { verifyToken } from '@/middleware/verifyToken';
 import { Router } from 'express';
 
@@ -40,6 +41,7 @@ export class InvoiceRouter {
     );
     this.router.patch(
       '/:invoiceCode',
+      updateInvoiceValidation,
       verifyToken,
       this.invoiceController.updateInvoice,
     );

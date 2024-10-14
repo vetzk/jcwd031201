@@ -16,16 +16,6 @@ import { useRouter } from 'next/navigation';
 import * as React from 'react';
 import DatePicker from 'react-datepicker';
 import Preview from './Preview';
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-} from '@/components/ui/alert-dialog';
-import { AlertDialogTitle } from '@radix-ui/react-alert-dialog';
 import useInvoice from '@/helper/useInvoice';
 import useProduct from '@/helper/useProduct';
 import usePaymentDetails from '@/helper/usePaymentDetails';
@@ -301,6 +291,7 @@ const InvoiceDetail: React.FunctionComponent<IInvoiceDetailProps> = ({
           email: clientEmail,
           paymentType: paymentTypeVal,
           paymentCode: paymentVal,
+          date,
           bankAccount,
           accountName,
           accountNumber,

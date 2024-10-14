@@ -73,6 +73,7 @@ export class AuthController {
           identificationId: user.identificationId,
           email: user.email,
           username: user.username,
+          isVerified: user.isVerified,
         },
       });
     } catch (error) {
@@ -234,6 +235,7 @@ export class AuthController {
           email: findUser.email,
           profilePicture: findProfile?.profilePicture,
           username: findUser.username,
+          isVerified: findUser.isVerified,
           token,
         },
       });
@@ -270,6 +272,7 @@ export class AuthController {
           identificationId: findUser.identificationId,
           username: findUser.username,
           email: findUser.email,
+          isVerified: findUser.isVerified,
           token,
         },
       });

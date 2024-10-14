@@ -61,6 +61,7 @@ const Login: React.FunctionComponent<ILoginProps> = (props) => {
             email: data.result.email,
             username: data.result.username,
             identificationId: data.result.identificationId,
+            isVerified: data.result.isVerified,
           });
           setIsLoading(false);
           router.replace('/user/profile');

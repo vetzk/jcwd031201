@@ -100,7 +100,7 @@ const Dashboard: React.FunctionComponent<IDashboardProps> = (props) => {
   }, []);
   React.useEffect(() => {
     if (profile) {
-      setName(profile.result.findProfile.firstName);
+      setName(profile.result.findProfile?.firstName);
     }
   }, [profile]);
 

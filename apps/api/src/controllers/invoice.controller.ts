@@ -406,6 +406,7 @@ export class InvoiceController {
       phone,
       email,
       qtys,
+      date,
     } = req.body;
 
     const { invoiceCode } = req.params;
@@ -487,7 +488,7 @@ export class InvoiceController {
         });
       }
 
-      let newNextInvoiceDate = findInvoice.nextInvoiceDate;
+      let newNextInvoiceDate = findInvoice.invoiceDate;
       if (addRecurringDate) {
         newNextInvoiceDate = new Date();
         newNextInvoiceDate.setDate(
@@ -546,8 +547,9 @@ export class InvoiceController {
 
         const updatedInvoice = await prisma.invoice.update({
           data: {
+            invoiceDate: date ? date : findInvoice.invoiceDate,
             invoiceStatus: invoiceStatus || findInvoice.invoiceStatus,
-            nextInvoiceDate: nextInvoiceDate || newNextInvoiceDate,
+            nextInvoiceDate: newNextInvoiceDate,
             totalAmount,
             recurringDays: Number(addRecurringDate),
             subTotal,

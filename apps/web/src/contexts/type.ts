@@ -4,6 +4,7 @@ export type UserType = {
   email: string;
   identificationId: string;
   username: string;
+  isVerified: boolean;
 };
 
 export interface UserContextType {

@@ -41,6 +41,7 @@ const UserProvider: React.FunctionComponent<IUserProviderProps> = ({
         email: data.result.email,
         identificationId: data.result.identificationId,
         username: data.result.username,
+        isVerified: data.result.isVerified,
       });
 
       return data;
