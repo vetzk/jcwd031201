@@ -210,10 +210,7 @@ const Profile: React.FunctionComponent<IProfileProps> = (props) => {
     setAddress(profile.result.findProfile.address || '');
     setPhone(profile.result.findProfile.phone || '');
     setIsCreated(profile.result.findProfile.isCreated || false);
-    setImageUrl(
-      'http://localhost:8000' + profile.result.findProfile.profilePicture ||
-        '/27002.jpg',
-    );
+    setImageUrl(profile.result.findProfile.profilePicture || '/27002.jpg');
     setImageFile(null);
   };
 
@@ -238,9 +235,7 @@ const Profile: React.FunctionComponent<IProfileProps> = (props) => {
       setPhone(profile.result.findProfile?.phone || '');
       setIsCreated(profile.result.findProfile?.isCreated || false);
       if (profile.result.findProfile?.profilePicture !== undefined) {
-        setImageUrl(
-          'http://localhost:8000' + profile.result.findProfile?.profilePicture,
-        );
+        setImageUrl(profile.result.findProfile?.profilePicture);
       } else {
         setImageUrl('/27002.jpg');
       }
@@ -410,6 +405,19 @@ const Profile: React.FunctionComponent<IProfileProps> = (props) => {
                 />
                 {error.lastName && (
                   <p className="text-red-500">{error.lastName}</p>
+                )}
+              </div>
+              <div className="w-full flex flex-col gap-3">
+                <Label>Company Name</Label>
+                <Input
+                  className="w-full sm:w-1/2"
+                  placeholder="Your company name"
+                  type="text"
+                  value={companyName}
+                  onChange={(e) => setCompanyName(e.target.value)}
+                />
+                {error.companyName && (
+                  <p className="text-red-500">{error.companyName}</p>
                 )}
               </div>
               <div className="w-full flex flex-col gap-3">

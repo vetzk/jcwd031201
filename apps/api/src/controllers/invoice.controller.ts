@@ -125,18 +125,20 @@ export class InvoiceController {
         });
 
         const cliCode = 'CLI-' + uuid();
-        const findClientPayment = await prisma.clientpayment.findFirst({
+
+        let findClientPayment = await prisma.clientpayment.findFirst({
           where: {
-            OR: [
-              {
-                id: findClient?.payId, // Search by id if available
-              },
-              {
-                paymentMethod: clientPayment, // Search by paymentMethod if id is not present
-              },
-            ],
+            id: findClient?.payId,
           },
         });
+
+        if (!findClientPayment) {
+          findClientPayment = await prisma.clientpayment.findFirst({
+            where: {
+              paymentMethod: clientPayment,
+            },
+          });
+        }
 
         if (!findClientPayment) {
           return res.status(404).send({

@@ -1,4 +1,5 @@
 import { ProfileController } from '@/controllers/profile.controller';
+import { cloudinaryUpload } from '@/middleware/cloudinaryUpload';
 import { uploader } from '@/middleware/uploader';
 import { createProfileValidation } from '@/middleware/validator/createProfile';
 import { updateProfileValidation } from '@/middleware/validator/updateProfile';
@@ -19,6 +20,7 @@ export class ProfileRouter {
       '',
       verifyToken,
       uploader('/profile', 'USR').single('img'),
+      cloudinaryUpload,
       createProfileValidation,
       this.profileController.createProfile,
     );
@@ -27,6 +29,7 @@ export class ProfileRouter {
       '',
       verifyToken,
       uploader('/profile', 'USR').single('img'),
+      cloudinaryUpload,
       updateProfileValidation,
       this.profileController.updateProfile,
     );
