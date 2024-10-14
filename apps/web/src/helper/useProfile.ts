@@ -6,9 +6,9 @@ const useProfile = (token: string) => {
     queryKey: ['profile'],
     queryFn: async () => {
       const { data } = await apiCall.get('/api/profile', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        // headers: {
+        //   Authorization: `Bearer ${token}`,
+        // },
       });
       return data;
     },

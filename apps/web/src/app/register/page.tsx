@@ -80,8 +80,8 @@ const Register: React.FunctionComponent<IRegisterProps> = (props) => {
     onError: (error: any) => {
       setIsLoading(false);
       setIsDialogOpen(false);
-      toast(error.response.data.error.errors[0].msg);
-      console.log(error.response.data.error.errors[0]);
+      console.log(error);
+      toast(error.response.data.message);
     },
   });
 

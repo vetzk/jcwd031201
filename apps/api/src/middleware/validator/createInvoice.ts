@@ -2,11 +2,57 @@ import { NextFunction, Request, Response } from 'express';
 import { body, validationResult } from 'express-validator';
 
 export const createInvoiceValidation = [
-  body('name').notEmpty().withMessage('Please provide client name'),
-  body('address').notEmpty().withMessage('Please provide client address'),
-  body('phone').notEmpty().withMessage('Please provide client phone'),
-  body('email').notEmpty().withMessage('Please provide client email'),
-  body('qtys').notEmpty().withMessage('Please provide quantity'),
+  body('clientCode').notEmpty().withMessage('please provide the client'),
+
+  body('name')
+    .if((value, { req }) => !req.body.clientCode)
+    .notEmpty()
+    .withMessage('Please provide client name'),
+  body('address')
+    .if((value, { req }) => !req.body.clientCode)
+    .notEmpty()
+    .withMessage('Please provide client address'),
+  body('phone')
+    .if((value, { req }) => !req.body.clientCode)
+    .notEmpty()
+    .withMessage('Please provide client phone'),
+  body('email')
+    .if((value, { req }) => !req.body.clientCode)
+    .isEmail()
+    .withMessage('Please provide a valid email')
+    .notEmpty()
+    .withMessage('Please provide client email'),
+  body('invoiceStatus').notEmpty().withMessage('Please provide status invoice'),
+  body('addRecurringDate')
+    .notEmpty()
+    .withMessage('Please provide recurring date'),
+  body('date').notEmpty().withMessage('Please provide due date'),
+  body('clientPayment')
+    .if((value, { req }) => !req.body.clientCode)
+    .notEmpty()
+    .withMessage('Please provide client payment options'),
+  body('qtys')
+    .isArray({
+      min: 1,
+    })
+    .withMessage('Please provide the quantities')
+    .custom((qtys) => {
+      if (!qtys.every((qty: number) => qty > 0)) {
+        throw new Error('Quantities must be greater than 0');
+      }
+      return true;
+    }),
+  body('productCodes')
+    .isArray({
+      min: 1,
+    })
+    .withMessage('Please provide the products')
+    .custom((productCodes) => {
+      if (!productCodes.every((code: string) => typeof code === 'string')) {
+        throw new Error('Codes must be valid string');
+      }
+      return true;
+    }),
   (req: Request, res: Response, next: NextFunction) => {
     const errorValidator = validationResult(req);
     if (!errorValidator.isEmpty()) {

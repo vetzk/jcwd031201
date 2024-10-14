@@ -158,17 +158,17 @@ const CreateInvoice: React.FunctionComponent<ICreateInvoiceProps> = (props) => {
   const [paymentVal, setPaymentVal] = React.useState<string>('');
   const [clientName, setClientName] = React.useState<string>('');
   const [clientPay, setClientPay] = React.useState<string>('');
-  const token = localStorage.getItem('token') || '';
+  // const token = localStorage.getItem('token') || '';
   const {
     data: products,
     isError: productError,
     isLoading: productLoading,
-  } = useProduct(token);
+  } = useProduct('token');
   const {
     data: details,
     isError: detailsError,
     isLoading: detailsLoading,
-  } = usePaymentDetails(token);
+  } = usePaymentDetails('token');
   const [clientAddress, setClientAddress] = React.useState<string>('');
   const [clientPhone, setClientPhone] = React.useState<string>('');
   const [clientEmail, setClientEmail] = React.useState<string>('');
@@ -319,11 +319,11 @@ const CreateInvoice: React.FunctionComponent<ICreateInvoiceProps> = (props) => {
           productCodes,
           qtys,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
+        // {
+        //   headers: {
+        //     Authorization: `Bearer ${token}`,
+        //   },
+        // },
       );
       return data;
     },
@@ -485,7 +485,7 @@ const CreateInvoice: React.FunctionComponent<ICreateInvoiceProps> = (props) => {
     }
   };
 
-  const { data: client, isError, isLoading } = useClient(token);
+  const { data: client, isError, isLoading } = useClient('token');
   const {
     data: method,
     isError: methodError,

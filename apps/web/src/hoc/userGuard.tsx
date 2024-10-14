@@ -6,11 +6,12 @@ const userAuth = (WrappedComponent: ComponentType<any>) => {
   const AuthenticatedComponent = (props: any) => {
     const router = useRouter();
     const { user, loading } = useContext(UserContext);
-    const token = localStorage.getItem('token');
+    // const token = localStorage.getItem('token');
 
     useEffect(() => {
       console.log(user);
-      if (!loading && user && token) {
+
+      if (!loading && user) {
         router.replace('/user/profile');
       }
     }, [user, loading, router]);
@@ -19,7 +20,7 @@ const userAuth = (WrappedComponent: ComponentType<any>) => {
       return <div>Loading...</div>;
     }
 
-    if (!user || !token) {
+    if (!user) {
       return <WrappedComponent {...props} />;
     }
     return null;

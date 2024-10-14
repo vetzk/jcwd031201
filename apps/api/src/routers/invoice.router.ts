@@ -28,7 +28,7 @@ export class InvoiceRouter {
 
     this.router.post(
       '',
-      // createInvoiceValidation,
+      createInvoiceValidation,
       verifyToken,
       this.invoiceController.createInvoice,
     );

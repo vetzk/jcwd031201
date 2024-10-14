@@ -6,9 +6,9 @@ const useProduct = (token: string) => {
     queryKey: ['product'],
     queryFn: async () => {
       const { data } = await apiCall.get('/api/product', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        // headers: {
+        //   Authorization: `Bearer ${token}`,
+        // },
       });
       return data;
     },

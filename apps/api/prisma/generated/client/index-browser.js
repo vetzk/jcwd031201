@@ -208,7 +208,10 @@ exports.Prisma.UserScalarFieldEnum = {
   isBlocked: 'isBlocked',
   lastLoginAttempt: 'lastLoginAttempt',
   loginAttempt: 'loginAttempt',
-  isVerified: 'isVerified'
+  isVerified: 'isVerified',
+  resetToken: 'resetToken',
+  resetTokenExpiry: 'resetTokenExpiry',
+  sessionToken: 'sessionToken'
 };
 
 exports.Prisma.UserprofileScalarFieldEnum = {

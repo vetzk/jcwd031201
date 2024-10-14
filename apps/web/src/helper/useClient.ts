@@ -6,9 +6,9 @@ const useClient = (token: string) => {
     queryKey: ['client'],
     queryFn: async () => {
       const { data } = await apiCall.get('/api/client', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        // headers: {
+        //   Authorization: `Bearer ${token}`,
+        // },
       });
       return data;
     },

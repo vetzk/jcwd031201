@@ -6,9 +6,9 @@ const useInvoice = (token: string, invoiceCode: string) => {
     queryKey: ['invoice'],
     queryFn: async () => {
       const { data } = await apiCall.get(`/api/invoice/${invoiceCode}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        // headers: {
+        //   Authorization: `Bearer ${token}`,
+        // },
       });
       return data;
     },

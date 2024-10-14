@@ -39,6 +39,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import usePayment from '@/helper/usePayment';
 import usePaymentMethod from '@/helper/usePaymentMethod';
 import { MdOutlineDelete } from 'react-icons/md';
+import Alert from '@/components/Alert';
 
 interface IInvoiceDetailProps {
   params: {
@@ -85,9 +86,6 @@ const InvoiceDetail: React.FunctionComponent<IInvoiceDetailProps> = ({
   const [invoiceProducts, setInvoiceProducts] = React.useState<InvoiceType[]>([
     { name: '', quantity: 1, priceUnit: 0, priceTotal: 0 },
   ]);
-  const [selectedProducts, setSelectedProducts] = React.useState<
-    (ProductDetails | null)[]
-  >(products ? products?.result.map(() => null) : []);
   const [error, setError] = React.useState<{
     [key: string]: string | number | null | [];
   }>({
@@ -468,26 +466,14 @@ const InvoiceDetail: React.FunctionComponent<IInvoiceDetailProps> = ({
                 >
                   Update Invoice
                 </Button>
-                <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>
-                        Are your sure you want to update invoice?
-                      </AlertDialogTitle>
-                      <AlertDialogDescription>
-                        Make sure the informations are correct.
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel className="text-white bg-red-500">
-                        Cancel
-                      </AlertDialogCancel>
-                      <AlertDialogAction onClick={handleUpdateInvoice}>
-                        Update Invoice
-                      </AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
+                <Alert
+                  isDialogOpen={isDialogOpen}
+                  setIsDialogOpen={setIsDialogOpen}
+                  title={'Are your sure you want to update invoice?'}
+                  description={' Make sure the informations are correct.'}
+                  actionText={'Update Invoice'}
+                  handleFunc={handleUpdateInvoice}
+                />
               </div>
             </div>
             <div className="w-full p-5 flex gap-5 md:flex-row flex-col">
@@ -763,9 +749,13 @@ const InvoiceDetail: React.FunctionComponent<IInvoiceDetailProps> = ({
                 )}
 
                 <div className="w-full flex items-center gap-2 cursor-pointer">
-                  <p onClick={addItem} className="underline text-green-700">
+                  <Button
+                    disabled={products.result.length === invoiceProducts.length}
+                    onClick={addItem}
+                    className="underline bg-transparent hover:bg-transparent shadow-none text-green-700"
+                  >
                     + Add item
-                  </p>
+                  </Button>
                 </div>
                 <div className="w-full flex flex-col gap-3">
                   <p>Payment Method</p>

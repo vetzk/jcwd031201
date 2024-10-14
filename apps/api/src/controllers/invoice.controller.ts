@@ -23,13 +23,8 @@ export class InvoiceController {
       accountName,
       accountNumber,
       clientPayment,
-      lastName,
-      firstName,
       addRecurringDate,
       date,
-      companyName,
-      userAddress,
-      userPhone,
     } = req.body;
 
     try {
@@ -125,11 +120,21 @@ export class InvoiceController {
             });
           }
         }
+        let findClient = await prisma.client.findUnique({
+          where: { clientCode },
+        });
 
         const cliCode = 'CLI-' + uuid();
         const findClientPayment = await prisma.clientpayment.findFirst({
           where: {
-            paymentMethod: clientPayment,
+            OR: [
+              {
+                id: findClient?.payId, // Search by id if available
+              },
+              {
+                paymentMethod: clientPayment, // Search by paymentMethod if id is not present
+              },
+            ],
           },
         });
 
@@ -139,9 +144,6 @@ export class InvoiceController {
             message: 'Cannot find payment method',
           });
         }
-        let findClient = await prisma.client.findUnique({
-          where: { clientCode },
-        });
 
         if (!findClient) {
           findClient = await prisma.client.create({

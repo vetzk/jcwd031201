@@ -6,30 +6,34 @@ import { NextFunction, Request, Response } from 'express';
 import { v4 as uuid } from 'uuid';
 import { compareSync } from 'bcrypt';
 import { sendResetEmail } from '@/utils/emailResetPass';
+import { addMinutes } from 'date-fns';
+import {
+  findEmailExist,
+  findUserAuth,
+  findUserId,
+  findUsernameExist,
+  findUserViaEmail,
+} from '@/services/auth.service';
 
 export class AuthController {
   async register(req: Request, res: Response, next: NextFunction) {
     const { email, username, password, confirmPassword } = req.body;
     try {
-      const findEmailExist = await prisma.user.findUnique({
-        where: {
-          email,
-        },
-      });
-      const findUsernameExist = await prisma.user.findUnique({
-        where: {
-          username,
-        },
-      });
+      const findEmail = await findEmailExist(email);
 
-      if (findEmailExist) {
+      const findUsername = await findUsernameExist(username);
+
+      console.log(findEmail);
+      console.log(findUsername);
+
+      if (findEmail) {
         return res.status(401).send({
           success: false,
           message: 'Email already exist',
         });
       }
 
-      if (findUsernameExist) {
+      if (findUsername) {
         return res.status(401).send({
           success: false,
           message: 'Username already exist',
@@ -106,16 +110,20 @@ export class AuthController {
     const { username, password } = req.body;
     const BLOCK_TIME = 5 * 60 * 1000;
     try {
-      const findUser = await prisma.user.findUnique({
-        where: {
-          username,
-        },
-      });
+      const findUser: any = await findUserAuth(username);
 
       if (!findUser) {
         return res.status(404).send({
           success: false,
           message: 'Cannot find your username',
+        });
+      }
+
+      if (findUser.sessionToken) {
+        return res.status(403).send({
+          success: false,
+          message:
+            'You are already logged in from another device. Please log out first.',
         });
       }
 
@@ -191,17 +199,6 @@ export class AuthController {
         });
       }
 
-      await prisma.user.update({
-        where: {
-          username,
-        },
-        data: {
-          loginAttempt: 0,
-          lastLoginAttempt: new Date(),
-          isBlocked: false,
-        },
-      });
-
       const token = createToken(
         {
           identificationId: findUser.identificationId,
@@ -210,6 +207,18 @@ export class AuthController {
         },
         '24h',
       );
+
+      await prisma.user.update({
+        where: {
+          username,
+        },
+        data: {
+          sessionToken: token,
+          loginAttempt: 0,
+          lastLoginAttempt: new Date(),
+          isBlocked: false,
+        },
+      });
 
       const findProfile = await prisma.userprofile.findFirst({
         where: {
@@ -236,11 +245,9 @@ export class AuthController {
 
   async keepLogin(req: Request, res: Response, next: NextFunction) {
     try {
-      const findUser = await prisma.user.findUnique({
-        where: {
-          identificationId: res.locals.decrypt.identificationId,
-        },
-      });
+      const findUser: any = await findUserId(
+        res.locals.decrypt.identificationId,
+      );
 
       if (!findUser) {
         return res.status(404).send({
@@ -279,11 +286,7 @@ export class AuthController {
   async forgotPassword(req: Request, res: Response, next: NextFunction) {
     const { email } = req.body;
     try {
-      const findEmail = await prisma.user.findUnique({
-        where: {
-          email,
-        },
-      });
+      const findEmail: any = await findUserViaEmail(email);
 
       if (!findEmail) {
         return res.status(404).send({
@@ -300,6 +303,18 @@ export class AuthController {
         },
         '20m',
       );
+
+      const expiryTime = addMinutes(new Date(), 20);
+
+      await prisma.user.update({
+        where: {
+          email,
+        },
+        data: {
+          resetToken: token,
+          resetTokenExpiry: expiryTime,
+        },
+      });
 
       await sendResetEmail(findEmail.email, 'Password Reset', null, {
         email: findEmail.email,
@@ -318,6 +333,7 @@ export class AuthController {
   }
 
   async resetPassword(req: Request, res: Response, next: NextFunction) {
+    const { token } = req.params;
     const { password } = req.body;
     try {
       if (!res.locals.decrypt.identificationId) {
@@ -326,9 +342,28 @@ export class AuthController {
           message: 'Cannot find user',
         });
       }
+
+      const user = await prisma.user.findFirst({
+        where: {
+          resetToken: token,
+          resetTokenExpiry: {
+            gte: new Date(),
+          },
+        },
+      });
+
+      if (!user) {
+        return res.status(404).send({
+          success: false,
+          message: 'Invalid or expired token',
+        });
+      }
+
       await prisma.user.update({
         data: {
           password: await hashPassword(password),
+          resetToken: null,
+          resetTokenExpiry: null,
         },
         where: {
           identificationId: res.locals.decrypt.identificationId,
@@ -344,8 +379,48 @@ export class AuthController {
     }
   }
 
+  async validateToken(req: Request, res: Response, next: NextFunction) {
+    const token = req.body;
+    try {
+      const findToken = await prisma.user.findFirst({
+        where: {
+          resetToken: token,
+          identificationId: res.locals.decrypt.identificationId,
+        },
+      });
+
+      if (!findToken) {
+        return res.status(401).send({
+          success: false,
+          message: 'Token has expired',
+        });
+      }
+
+      return res.status(200).send({
+        success: true,
+        message: 'Success to get your token',
+        result: findToken.resetToken,
+      });
+    } catch (error) {
+      next({
+        success: false,
+        message: 'Cannot validate your token',
+        error,
+      });
+    }
+  }
+
   async logout(req: Request, res: Response, next: NextFunction) {
     try {
+      await prisma.user.update({
+        where: {
+          identificationId: res.locals.decrypt.identificationId,
+        },
+        data: {
+          sessionToken: null,
+        },
+      });
+
       return res.status(200).send({
         success: true,
         message: 'Logout success',
