@@ -22,16 +22,6 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { toast, ToastContainer } from 'react-toastify';
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
-import {
   Select,
   SelectContent,
   SelectItem,
@@ -235,11 +225,11 @@ const Invoice: React.FunctionComponent<IInvoiceProps> = (props) => {
       link.click();
     },
     onSuccess: (data) => {
-      toast('Download invoice success');
+      toast.success('Download invoice success', { position: 'bottom-center' });
       console.log(data);
     },
     onError: (error) => {
-      toast('Download invoice error');
+      toast.error('Download invoice error', { position: 'bottom-center' });
       console.log(error);
     },
   });
@@ -285,7 +275,6 @@ const Invoice: React.FunctionComponent<IInvoiceProps> = (props) => {
 
   return (
     <div className="w-full">
-      <ToastContainer />
       <div className="flex flex-col md:flex-row mt-28 mb-10 mx-5 md:mx-10 rounded-xl border-slate-500 border border-solid">
         <Sidebar />
         <div className="flex-1">
@@ -301,7 +290,7 @@ const Invoice: React.FunctionComponent<IInvoiceProps> = (props) => {
                   onChange={(e) => setSearchInput(e.target.value)}
                 />
                 <div className="w-full md:w-1/2 flex items-center gap-2 md:gap-5">
-                  <div className="z-50">
+                  <div className="z-20">
                     <DatePicker
                       className="border-slate-200 shadow-sm border border-solid rounded-md md:w-auto w-full p-2"
                       placeholderText="From"
@@ -309,7 +298,7 @@ const Invoice: React.FunctionComponent<IInvoiceProps> = (props) => {
                       onChange={(date) => setStartDateSearch(date)}
                     />
                   </div>
-                  <div className="z-50">
+                  <div className="z-20">
                     <DatePicker
                       className="border-slate-200 shadow-sm border border-solid rounded-md p-2 md:w-auto w-full"
                       placeholderText="To"

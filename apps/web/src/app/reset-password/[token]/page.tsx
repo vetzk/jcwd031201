@@ -57,7 +57,7 @@ const ResetPassword: React.FunctionComponent<IResetPasswordProps> = (props) => {
     },
     onSuccess: (data) => {
       setIsLoading(true);
-      toast('Reset Password Success');
+      toast.success('Reset Password Success', { position: 'bottom-center' });
       console.log(data);
       setTimeout(() => {
         setIsLoading(false);
@@ -66,7 +66,7 @@ const ResetPassword: React.FunctionComponent<IResetPasswordProps> = (props) => {
     },
     onError: (error: any) => {
       setIsLoading(false);
-      toast('Failed to reset password');
+      toast.error('Failed to reset password', { position: 'bottom-center' });
       console.log(error);
     },
   });
@@ -138,8 +138,9 @@ const ResetPassword: React.FunctionComponent<IResetPasswordProps> = (props) => {
         setResetToken(data.result);
       } catch (error: any) {
         if (error.response.status === 401) {
-          toast('Reset link has expired Please request a new one', {
+          toast.error('Reset link has expired Please request a new one', {
             onClose: () => router.replace('/forgot-password'),
+            position: 'bottom-center',
           });
         }
       }
@@ -159,7 +160,6 @@ const ResetPassword: React.FunctionComponent<IResetPasswordProps> = (props) => {
 
   return (
     <div className="w-full min-h-screen flex gap-20 px-10 pt-32 mb-10">
-      <ToastContainer />
       <div className="w-1/2 p-10 flex flex-col">
         <div className="w-full flex-col flex justify-center items-center gap-12">
           <div className="w-full flex flex-col justify-center items-center gap-5">

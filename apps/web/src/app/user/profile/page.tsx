@@ -189,13 +189,16 @@ const Profile: React.FunctionComponent<IProfileProps> = (props) => {
       console.log(data);
       setIsDialogOpen(false);
       setIsCreated(data.result.isCreated);
-      toast('Profile updated successfully', { onClose: () => refetch() });
+      toast.success('Profile updated successfully', {
+        onClose: () => refetch(),
+        position: 'bottom-center',
+      });
       // router.replace('/user/profile');
     },
     onError: (error: any) => {
       setIsDialogOpen(false);
       console.log(error);
-      toast('Failed to Update Profile');
+      toast.error('Failed to Update Profile', { position: 'bottom-center' });
     },
   });
 
@@ -265,7 +268,6 @@ const Profile: React.FunctionComponent<IProfileProps> = (props) => {
 
   return (
     <div className="w-full">
-      <ToastContainer />
       <div className="flex flex-col md:flex-row mt-28 mb-10 mx-5 md:mx-10 rounded-xl border-slate-500 border border-solid">
         <Sidebar />
         <div className="flex-1">

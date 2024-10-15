@@ -64,7 +64,7 @@ const Register: React.FunctionComponent<IRegisterProps> = (props) => {
       setIsLoading(true);
       setIsDialogOpen(false);
       localStorage.setItem('token', data.result.token);
-      toast('Register success', {
+      toast.success('Register success', {
         onClose: () => {
           setUser({
             username: data.result.username,
@@ -75,13 +75,14 @@ const Register: React.FunctionComponent<IRegisterProps> = (props) => {
           setIsLoading(false);
           router.replace('/user/profile');
         },
+        position: 'bottom-center',
       });
     },
     onError: (error: any) => {
       setIsLoading(false);
       setIsDialogOpen(false);
       console.log(error);
-      toast(error.response.data.message);
+      toast.error(error.response.data.message, { position: 'bottom-center' });
     },
   });
 
@@ -169,8 +170,6 @@ const Register: React.FunctionComponent<IRegisterProps> = (props) => {
 
   return (
     <div className="w-full min-h-screen flex flex-col gap-10 px-4 pt-20 mb-10 md:flex-row md:gap-20 md:px-10 md:pt-32">
-      {' '}
-      <ToastContainer />
       <div className="w-1/2 relative hidden md:block">
         <Image
           src="/man-wearing-t-shirt-gesturing.jpg"

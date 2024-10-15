@@ -57,12 +57,13 @@ const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
         onClose: () => {
           router.replace('/login');
         },
+        position: 'bottom-center',
       });
       console.log(data);
     },
     onError: (error) => {
       setIsDialogOpen(false);
-      toast('Logout failed');
+      toast.error('Logout failed', { position: 'bottom-center' });
       console.log(error);
     },
   });
@@ -97,7 +98,6 @@ const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
           onClick={() => router.push('/')}
         />
       </div>
-      <ToastContainer />
 
       {/* Hamburger Icon for mobile screens */}
       <div className="md:hidden">

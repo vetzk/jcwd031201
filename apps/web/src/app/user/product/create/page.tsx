@@ -77,13 +77,14 @@ const CreateProduct: React.FunctionComponent<ICreateProductProps> = (props) => {
     onSuccess: (data) => {
       console.log(data);
       setIsDialogOpen(false);
-      toast('Create Product Success', {
+      toast.success('Create Product Success', {
         onClose: () => router.replace('/user/product'),
+        position: 'bottom-center',
       });
     },
     onError: (error) => {
       console.log(error);
-      toast('Failed to create product');
+      toast.error('Failed to create product', { position: 'bottom-center' });
     },
   });
 
@@ -143,7 +144,6 @@ const CreateProduct: React.FunctionComponent<ICreateProductProps> = (props) => {
 
   return (
     <div className="w-full">
-      <ToastContainer />
       <div className="flex flex-col md:flex-row mt-28 mb-10 mx-5 md:mx-10 rounded-xl border-slate-500 border border-solid">
         <Sidebar />
         <div className="flex-1">
