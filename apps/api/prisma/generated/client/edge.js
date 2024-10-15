@@ -254,7 +254,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "D:\\jcwd0312sby\\Finpro_Backup\\jcwd031201-develop\\apps\\api\\prisma\\generated\\client",
+      "value": "/Users/abdialghi/Documents/Purwadhika/jcwd031201/apps/api/prisma/generated/client",
       "fromEnvVar": null
     },
     "config": {
@@ -263,7 +263,7 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "windows",
+        "value": "darwin-arm64",
         "native": true
       }
     ],

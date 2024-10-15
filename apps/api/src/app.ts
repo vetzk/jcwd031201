@@ -75,7 +75,7 @@ export default class App {
     const clientRouter = new ClientRouter();
     const paymentRouter = new PaymentRouter();
 
-    this.app.get('/api', (req: Request, res: Response) => {
+    this.app.get('/', (req: Request, res: Response) => {
       res.send(`Hello, Purwadhika Student API!`);
     });
 

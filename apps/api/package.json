@@ -6,11 +6,11 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development ts-node-dev -r tsconfig-paths/register src/index.ts",
     "build": "tsc && tsc-alias",
-    "serve": "cross-env NODE_ENV=production node dist/index.js",
+    "serve": "node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prisma": "npx prisma",
     "postinstall": "prisma generate",
-    "start": "nodemon src/index.ts"
+    "start": "node dist/index.js"
   },
   "author": "",
   "license": "ISC",
