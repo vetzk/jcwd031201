@@ -9,8 +9,6 @@ const userAuth = (WrappedComponent: ComponentType<any>) => {
     // const token = localStorage.getItem('token');
 
     useEffect(() => {
-      console.log(user);
-
       if (!loading && user) {
         router.replace('/user/profile');
       }

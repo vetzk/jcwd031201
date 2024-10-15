@@ -8,8 +8,6 @@ const withAuth = (WrappedComponent: ComponentType<any>) => {
     const { user, loading } = useContext(UserContext);
 
     useEffect(() => {
-      console.log(!loading && !user);
-
       if (!loading && !user) {
         router.replace('/login');
       }

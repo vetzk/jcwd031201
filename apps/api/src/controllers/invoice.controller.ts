@@ -164,8 +164,10 @@ export class InvoiceController {
 
         const invCode = 'INV-' + uuid();
         let newDate = new Date(date);
+        let invDate = new Date(date);
         const offsetMinutes = 7 * 60;
         newDate.setMinutes(newDate.getMinutes() + offsetMinutes);
+        invDate.setMinutes(invDate.getMinutes() + offsetMinutes);
         console.log(date);
         console.log(addRecurringDate);
 
@@ -177,7 +179,7 @@ export class InvoiceController {
         const newInvoice = await prisma.invoice.create({
           data: {
             invoiceCode: invCode,
-            invoiceDate: date,
+            invoiceDate: invDate,
             nextInvoiceDate: newDate,
             invoiceStatus: invoiceStatus || 'UNPAID',
             totalAmount,
