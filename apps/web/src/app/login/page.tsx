@@ -148,7 +148,6 @@ const Login: React.FunctionComponent<ILoginProps> = (props) => {
               )}
             </div>
 
-            {/* Password */}
             <div className="w-full flex flex-col px-5 sm:px-10 gap-2">
               <Label>Password</Label>
               <div className="relative">

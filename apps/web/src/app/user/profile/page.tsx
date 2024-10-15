@@ -330,21 +330,6 @@ const Profile: React.FunctionComponent<IProfileProps> = (props) => {
                 </div>
               </div>
             )}
-            {!user?.isVerified && (
-              <div className="w-full flex md:justify-center md:flex-row flex-col gap-5 items-center border-b border-solid border-b-black p-5">
-                <div className="flex flex-col items-center gap-3">
-                  <Button
-                    className="w-1/4"
-                    onClick={() => router.replace('/verify')}
-                  >
-                    Verify
-                  </Button>
-                  <p className="text-red-500 text-center">
-                    Please verify first if you want to access the features
-                  </p>
-                </div>
-              </div>
-            )}
             <div className="w-full flex flex-col md:gap-3 gap-5 p-5">
               <div className="w-full flex md:flex-row flex-col gap-5 items-center">
                 <div className="w-16 h-16 sm:w-24 sm:h-24 relative">
@@ -446,19 +431,6 @@ const Profile: React.FunctionComponent<IProfileProps> = (props) => {
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                 />
-                {error.phone && <p className="text-red-500">{error.phone}</p>}
-              </div>
-              <div className="w-full flex flex-col gap-3">
-                <Label>Address</Label>
-                <Input
-                  className="w-full sm:w-1/2"
-                  placeholder="Your address"
-                  type="text"
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                />
-                {error.address && (
-                  <p className="text-red-500">{error.address}</p>
                 {error.phone && <p className="text-red-500">{error.phone}</p>}
               </div>
               <div className="w-full flex flex-col gap-3">
