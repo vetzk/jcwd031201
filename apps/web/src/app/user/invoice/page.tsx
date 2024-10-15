@@ -20,7 +20,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import * as React from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import {
   Select,
   SelectContent,
@@ -35,6 +35,8 @@ interface IInvoiceProps {}
 type InvoiceType = {
   invoiceCode: string;
 };
+
+const tableTitle = ['Invoice Code', 'Client', 'Due Date', 'Status', 'Amount'];
 
 const Invoice: React.FunctionComponent<IInvoiceProps> = (props) => {
   const searchParams = useSearchParams();
@@ -378,11 +380,11 @@ const Invoice: React.FunctionComponent<IInvoiceProps> = (props) => {
                             onCheckedChange={handleSelectAll}
                           />
                         </TableHead>
-                        <TableHead>Invoice Code</TableHead>
-                        <TableHead>Client</TableHead>
-                        <TableHead>Due Date</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead>Amount</TableHead>
+                        {tableTitle.map((e, i) => (
+                          <React.Fragment key={i}>
+                            <TableHead>{e}</TableHead>
+                          </React.Fragment>
+                        ))}
                       </TableRow>
                     </TableHeader>
                     <TableBody>

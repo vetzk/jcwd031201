@@ -459,7 +459,7 @@ const Profile: React.FunctionComponent<IProfileProps> = (props) => {
                 />
                 {error.address && (
                   <p className="text-red-500">{error.address}</p>
-                {error.phone && <p className="text-red-500">{error.phone}</p>}
+                )}
               </div>
               <div className="w-full flex flex-col gap-3">
                 <Label>Address</Label>

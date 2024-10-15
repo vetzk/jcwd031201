@@ -73,7 +73,7 @@ const Register: React.FunctionComponent<IRegisterProps> = (props) => {
             isVerified: data.result.isVerified,
           });
           setIsLoading(false);
-          router.replace('/user/profile');
+          router.replace('/verify');
         },
         position: 'bottom-center',
       });

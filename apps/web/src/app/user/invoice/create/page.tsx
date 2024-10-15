@@ -221,7 +221,7 @@ const CreateInvoice: React.FunctionComponent<ICreateInvoiceProps> = (props) => {
   const addNewProduct = () => {
     setInvoiceProducts([
       ...invoiceProducts,
-      { name: '', quantity: 1, priceUnit: 0, total: 0 },
+      { name: '', quantity: 0, priceUnit: 0, total: 0 },
     ]);
   };
 
@@ -439,6 +439,10 @@ const CreateInvoice: React.FunctionComponent<ICreateInvoiceProps> = (props) => {
     isLoading: payLoading,
   } = usePayment();
 
+  React.useEffect(() => {
+    console.log(invoiceProducts);
+  });
+
   if (!user?.isVerified) {
     return (
       <div className="w-full flex justify-center items-center min-h-screen">
@@ -636,130 +640,129 @@ const CreateInvoice: React.FunctionComponent<ICreateInvoiceProps> = (props) => {
                 </div>
                 {invoiceProducts.map((e: any, i: number) => (
                   <React.Fragment key={i}>
-                    {invoiceProducts.map((e, i) => (
-                      <div
-                        key={i}
-                        className="w-full md:flex-row flex-col flex items-center gap-5"
-                      >
-                        <div className="w-full flex flex-col gap-3">
-                          <Label>Product Name</Label>
-                          <Select
-                            value={e.name || ''}
-                            onValueChange={(value) => {
-                              const updatedProducts = [...invoiceProducts];
+                    <div
+                      key={i}
+                      className="w-full md:flex-row flex-col flex items-center gap-5"
+                    >
+                      <div className="w-full flex flex-col gap-3">
+                        <Label>Product Name</Label>
+                        <Select
+                          value={e.name || ''}
+                          onValueChange={(value) => {
+                            const updatedProducts = [...invoiceProducts];
 
-                              const selectedProduct = products.result.find(
-                                (product: any) => product.productCode === value,
-                              );
-                              console.log(selectedProduct);
-                              updatedProducts[i] = {
-                                ...updatedProducts[i],
-                                name: value,
-                                priceUnit: selectedProduct
-                                  ? selectedProduct.price
-                                  : 0, // Step to update priceUnit
-                                total:
-                                  updatedProducts[i].quantity ||
-                                  0 *
-                                    (selectedProduct
-                                      ? selectedProduct.price
-                                      : 0), // Update priceTotal as well
-
-                                product: {
-                                  name: selectedProduct.name,
-                                },
-                              };
-                              console.log(updatedProducts);
-
-                              setInvoiceProducts(updatedProducts);
-                              console.log(invoiceProducts);
-                            }}
-                          >
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select product" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {products && products.result.length > 0 ? (
-                                products.result.map((product: any) => (
-                                  <SelectItem
-                                    key={product.productCode}
-                                    value={product.productCode}
-                                  >
-                                    {product.name}
-                                  </SelectItem>
-                                ))
-                              ) : (
-                                <p>You have no product</p>
-                              )}
-                            </SelectContent>
-                          </Select>
-                        </div>
-                        <div className="md:w-auto w-full flex flex-col gap-3">
-                          <Label>Quantity</Label>
-                          <Input
-                            value={e.quantity ?? 1}
-                            onChange={(ev) => {
-                              const updatedProducts = [...invoiceProducts];
-                              updatedProducts[i].quantity = parseInt(
-                                ev.target.value,
-                                10,
-                              );
-                              updatedProducts[i].total =
-                                updatedProducts[i].quantity *
-                                updatedProducts[i].priceUnit;
-                              setInvoiceProducts(updatedProducts);
-                            }}
-                            type="number"
-                            placeholder="quantity"
-                          />
-                        </div>
-                        <div className="md:w-auto w-full flex flex-col gap-3">
-                          <Label>Price Unit</Label>
-                          <Input
-                            value={e.priceUnit}
-                            onChange={(ev) => {
-                              const updatedProducts = [...invoiceProducts];
-                              updatedProducts[i].priceUnit = parseFloat(
-                                ev.target.value,
-                              );
-                              updatedProducts[i].total =
+                            const selectedProduct = products.result.find(
+                              (product: any) => product.productCode === value,
+                            );
+                            console.log(selectedProduct);
+                            updatedProducts[i] = {
+                              ...updatedProducts[i],
+                              name: value,
+                              priceUnit: selectedProduct
+                                ? selectedProduct.price
+                                : 0, // Step to update priceUnit
+                              total:
                                 updatedProducts[i].quantity ||
-                                0 * updatedProducts[i].priceUnit;
-                              setInvoiceProducts(updatedProducts);
-                            }}
-                            type="number"
-                            placeholder="price unit"
-                          />
-                        </div>
-                        <div className="md:w-auto w-full flex flex-col gap-3">
-                          <Label>Total</Label>
-                          <Input
-                            type="number"
-                            value={e.total}
-                            placeholder="total"
-                            readOnly
-                          />
-                        </div>
-                        <div className="md:mt-7 cursor-pointer">
-                          <MdOutlineDelete
-                            size={30}
-                            onClick={() => removeProduct(i)}
-                          />
-                        </div>
+                                0 *
+                                  (selectedProduct ? selectedProduct.price : 0), // Update priceTotal as well
+
+                              product: {
+                                name: selectedProduct.name,
+                              },
+                            };
+                            console.log(updatedProducts);
+
+                            setInvoiceProducts(updatedProducts);
+                            console.log(invoiceProducts);
+                          }}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select product" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {products && products.result.length > 0 ? (
+                              products.result.map((product: any) => (
+                                <SelectItem
+                                  key={product.productCode}
+                                  value={product.productCode}
+                                >
+                                  {product.name}
+                                </SelectItem>
+                              ))
+                            ) : (
+                              <p>You have no product</p>
+                            )}
+                          </SelectContent>
+                        </Select>
                       </div>
-                    ))}
+                      <div className="md:w-auto w-full flex flex-col gap-3">
+                        <Label>Quantity</Label>
+                        <Input
+                          value={e.quantity ?? 1}
+                          onChange={(ev) => {
+                            const updatedProducts = [...invoiceProducts];
+                            updatedProducts[i].quantity = parseInt(
+                              ev.target.value,
+                              10,
+                            );
+                            updatedProducts[i].total =
+                              updatedProducts[i].quantity *
+                              updatedProducts[i].priceUnit;
+                            setInvoiceProducts(updatedProducts);
+                          }}
+                          type="number"
+                          placeholder="quantity"
+                        />
+                      </div>
+                      <div className="md:w-auto w-full flex flex-col gap-3">
+                        <Label>Price Unit</Label>
+                        <Input
+                          value={e.priceUnit}
+                          onChange={(ev) => {
+                            const updatedProducts = [...invoiceProducts];
+                            updatedProducts[i].priceUnit = parseFloat(
+                              ev.target.value,
+                            );
+                            updatedProducts[i].total =
+                              updatedProducts[i].quantity ||
+                              0 * updatedProducts[i].priceUnit;
+                            setInvoiceProducts(updatedProducts);
+                          }}
+                          type="number"
+                          placeholder="price unit"
+                        />
+                      </div>
+                      <div className="md:w-auto w-full flex flex-col gap-3">
+                        <Label>Total</Label>
+                        <Input
+                          type="number"
+                          value={e.total}
+                          placeholder="total"
+                          readOnly
+                        />
+                      </div>
+                      <div className="md:mt-7 cursor-pointer">
+                        <MdOutlineDelete
+                          size={30}
+                          onClick={() => removeProduct(i)}
+                        />
+                      </div>
+                    </div>
                   </React.Fragment>
                 ))}
                 {error.invoiceProducts && (
                   <p className="text-red-500">{error.invoiceProducts}</p>
                 )}
-                <div className="w-auto">
-                  <p
+                <div className="w-full flex items-center gap-2 cursor-pointer">
+                  <Button
+                    disabled={
+                      products?.result.length === invoiceProducts.length
+                    }
                     onClick={addNewProduct}
-                    className="w-24 underline text-green-700 cursor-pointer"
+                    className="underline bg-transparent hover:bg-transparent shadow-none text-green-700"
                   >
                     + Add item
-                  </p>
+                  </Button>
                 </div>
                 <div className="w-full flex flex-col gap-3">
                   <p>Payment Method</p>

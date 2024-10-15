@@ -7,7 +7,7 @@ import { useMutation } from '@tanstack/react-query';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import * as React from 'react';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 interface IVerifyEmailProps {}
@@ -15,7 +15,7 @@ interface IVerifyEmailProps {}
 const VerifyEmail: React.FunctionComponent<IVerifyEmailProps> = (props) => {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   // const token = localStorage.getItem('token');
-  const { user } = React.useContext(UserContext);
+  const { user, loading } = React.useContext(UserContext);
   const router = useRouter();
   const mutation = useMutation({
     mutationFn: async () => {
@@ -54,7 +54,7 @@ const VerifyEmail: React.FunctionComponent<IVerifyEmailProps> = (props) => {
     console.log(user?.isVerified);
   });
 
-  if (user?.isVerified === true) {
+  if (user?.isVerified && !loading) {
     return (
       <div className="w-full flex justify-center items-center min-h-screen">
         <div className="w-full h-screen flex flex-col justify-center items-center gap-5 relative">
@@ -66,6 +66,20 @@ const VerifyEmail: React.FunctionComponent<IVerifyEmailProps> = (props) => {
               onClick={() => router.replace('/user/profile')}
             >
               Back to profile
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  } else if (!user && !loading) {
+    return (
+      <div className="w-full flex justify-center items-center min-h-screen">
+        <div className="w-full h-screen flex flex-col justify-center items-center gap-5 relative">
+          <Image src="/mail.png" alt="" width={100} height={100} />
+          <div className="text-center flex flex-col items-center justify-center gap-5">
+            <p>You have not register yet.</p>
+            <Button className="" onClick={() => router.replace('/register')}>
+              Back to Register
             </Button>
           </div>
         </div>
@@ -94,4 +108,4 @@ const VerifyEmail: React.FunctionComponent<IVerifyEmailProps> = (props) => {
   );
 };
 
-export default withAuth(VerifyEmail);
+export default VerifyEmail;
