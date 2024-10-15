@@ -5,6 +5,8 @@ import { Footer } from '../components/Footer';
 import Navbar from '../components/Navbar';
 import QueryProvider from '@/utils/provider/QueryProvider';
 import UserProvider from '@/contexts/UserContext';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -25,6 +27,15 @@ export default function RootLayout({
           <UserProvider>
             <Navbar />
             {children}
+            <ToastContainer
+              autoClose={3000}
+              hideProgressBar={false}
+              newestOnTop={true}
+              closeOnClick
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+            />
             {/* <Footer /> */}
           </UserProvider>
         </QueryProvider>

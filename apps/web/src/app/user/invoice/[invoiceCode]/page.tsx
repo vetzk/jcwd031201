@@ -314,15 +314,16 @@ const InvoiceDetail: React.FunctionComponent<IInvoiceDetailProps> = ({
     onSuccess: (data) => {
       setIsDialogOpen(false);
       setChecked(false);
-      toast('Update invoice success', {
+      toast.success('Update invoice success', {
         onClose: () => {
           router.replace('/user/invoice');
         },
+        position: 'bottom-center',
       });
     },
     onError: (error: any) => {
       setIsDialogOpen(false);
-      toast('Update invoice failed');
+      toast.error('Update invoice failed', { position: 'bottom-center' });
       console.log(error);
     },
   });
@@ -348,11 +349,11 @@ const InvoiceDetail: React.FunctionComponent<IInvoiceDetailProps> = ({
       return data;
     },
     onSuccess: (data) => {
-      toast('Send invoice success');
+      toast.success('Send invoice success', { position: 'bottom-center' });
       console.log(data);
     },
     onError: (error) => {
-      toast('Failed to send invoice');
+      toast.error('Failed to send invoice', { position: 'bottom-center' });
       console.log(error);
     },
   });
@@ -422,7 +423,6 @@ const InvoiceDetail: React.FunctionComponent<IInvoiceDetailProps> = ({
 
   return (
     <div className="w-full">
-      <ToastContainer />
       <div className="flex flex-col md:flex-row mt-28 mb-10 mx-5 md:mx-10 rounded-xl border-slate-500 border border-solid">
         <Sidebar />
         <div className="flex-1">
@@ -741,7 +741,9 @@ const InvoiceDetail: React.FunctionComponent<IInvoiceDetailProps> = ({
 
                 <div className="w-full flex items-center gap-2 cursor-pointer">
                   <Button
-                    disabled={products.result.length === invoiceProducts.length}
+                    disabled={
+                      products?.result.length === invoiceProducts.length
+                    }
                     onClick={addItem}
                     className="underline bg-transparent hover:bg-transparent shadow-none text-green-700"
                   >

@@ -5,17 +5,7 @@ import fs from 'fs';
 
 export class ProfileController {
   async createProfile(req: Request, res: Response, next: NextFunction) {
-    const {
-      firstName,
-      lastName,
-      companyName,
-      address,
-      phone,
-      paymentType,
-      bankAccount,
-      accountName,
-      accountNumber,
-    } = req.body;
+    const { firstName, lastName, companyName, address, phone } = req.body;
 
     try {
       const findUser = await prisma.user.findUnique({
@@ -31,19 +21,6 @@ export class ProfileController {
         });
       }
 
-      // const findPaymentType = await prisma.paymentoptions.findFirst({
-      //   where: {
-      //     paymentType,
-      //   },
-      // });
-
-      // if (!findPaymentType) {
-      //   return res.status(404).send({
-      //     success: false,
-      //     message: 'Cannot find payment options',
-      //   });
-      // }
-
       const createProfile = await prisma.userprofile.create({
         data: {
           userId: findUser.id,
@@ -52,22 +29,11 @@ export class ProfileController {
           companyName,
           address,
           phone,
-          profilePicture: `/assets/profile/${req.file?.filename}`,
+          profilePicture: req.body.imageUrl,
+          // profilePicture: `/assets/profile/${req.file?.filename}`,
           isCreated: true,
         },
       });
-
-      // if (findPaymentType.paymentType === 'BANK_TRANSFER') {
-      //   await prisma.paymentdetails.create({
-      //     data: {
-      //       userId: findUser.id,
-      //       bankAccount,
-      //       accountName,
-      //       accountNumber,
-      //       paymentOptId: findPaymentType.id,
-      //     },
-      //   });
-      // }
 
       return res.status(200).send({
         success: true,
@@ -104,12 +70,6 @@ export class ProfileController {
           userId: findUser.id,
         },
       });
-
-      // const findPaymentDetails = await prisma.paymentdetails.findFirst({
-      //   where: {
-      //     userId: findUser.id,
-      //   },
-      // });
 
       return res.status(200).send({
         success: true,

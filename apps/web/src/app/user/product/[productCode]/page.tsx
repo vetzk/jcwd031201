@@ -115,14 +115,14 @@ const ProductDetail: React.FunctionComponent<IProductDetailProps> = ({
     },
     onSuccess: (data) => {
       console.log(data);
-      toast('Update Product Success');
+      toast.success('Update Product Success', { position: 'bottom-center' });
       setTimeout(() => {
         router.replace('/user/product');
       }, 5000);
     },
     onError: (error: any) => {
       console.log(error);
-      toast('Failed to Update Product');
+      toast.error('Failed to Update Product', { position: 'bottom-center' });
     },
   });
 
@@ -145,7 +145,6 @@ const ProductDetail: React.FunctionComponent<IProductDetailProps> = ({
   }, [data, category, categoryList]);
   return (
     <div className="w-full">
-      <ToastContainer />
       <div className="flex flex-col md:flex-row mt-28 mb-10 mx-5 md:mx-10 rounded-xl border-slate-500 border border-solid">
         <Sidebar />
         <div className="flex-1">

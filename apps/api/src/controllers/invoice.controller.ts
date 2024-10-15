@@ -125,18 +125,20 @@ export class InvoiceController {
         });
 
         const cliCode = 'CLI-' + uuid();
-        const findClientPayment = await prisma.clientpayment.findFirst({
+
+        let findClientPayment = await prisma.clientpayment.findFirst({
           where: {
-            OR: [
-              {
-                id: findClient?.payId, // Search by id if available
-              },
-              {
-                paymentMethod: clientPayment, // Search by paymentMethod if id is not present
-              },
-            ],
+            id: findClient?.payId,
           },
         });
+
+        if (!findClientPayment) {
+          findClientPayment = await prisma.clientpayment.findFirst({
+            where: {
+              paymentMethod: clientPayment,
+            },
+          });
+        }
 
         if (!findClientPayment) {
           return res.status(404).send({
@@ -737,35 +739,140 @@ export class InvoiceController {
         const page = await browser.newPage();
 
         const content = `
-    <html>
-      <body>
-        <h1>Invoice Code: ${invoice.invoiceCode}</h1>
-        <p>Client: ${invoice.client.name}</p>
-        <p>Date: ${new Date(invoice.invoiceDate).toLocaleDateString()}</p>
-        <p>Status: ${invoice.invoiceStatus}</p>
-        <p>Total Amount: ${new Intl.NumberFormat('id-ID', {
-          style: 'currency',
-          currency: 'IDR',
-        }).format(invoice.totalAmount)}</p>
-        <h2>Invoice Details:</h2>
-        <ul>
+   <html>
+  <head>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        color: #333;
+        background-color: #f4f4f4;
+      }
+
+      .container {
+        width: 80%;
+        margin: 20px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      h1, h2 {
+        color: #2c3e50;
+        text-align: center;
+      }
+
+      p {
+        font-size: 14px;
+        margin: 5px 0;
+      }
+
+      .invoice-info {
+        text-align: left;
+        margin-bottom: 20px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+      }
+
+      table, th, td {
+        border: 1px solid #ddd;
+      }
+
+      th, td {
+        padding: 10px;
+        text-align: left;
+      }
+
+      th {
+        background-color: #2c3e50;
+        color: #fff;
+      }
+
+      td {
+        background-color: #f9f9f9;
+      }
+
+      .total {
+        font-weight: bold;
+        text-align: right;
+      }
+
+      .footer {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 12px;
+        color: #999;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Hello, this is your invoice</h1>
+      <h2>Invoice Code: ${invoice.invoiceCode}</h2>
+      
+      <div class="invoice-info">
+        <p><strong>Client:</strong> ${invoice.client.name}</p>
+        <p><strong>Date:</strong> ${new Date(invoice.invoiceDate).toLocaleDateString()}</p>
+        <p><strong>Status:</strong> ${invoice.invoiceStatus}</p>
+        <p><strong>Total Amount:</strong> 
+          ${new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(invoice.totalAmount)}
+        </p>
+      </div>
+
+      <h2>Invoice Details:</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price Unit</th>
+            <th>Price Total</th>
+          </tr>
+        </thead>
+        <tbody>
           ${invoice.invoicedetail
             .map(
-              (detail) => `
-            <li>
-              Product: ${detail.product.name}, 
-              Quantity: ${detail.qty}, 
-              Price: ${new Intl.NumberFormat('id-ID', {
-                style: 'currency',
-                currency: 'IDR',
-              }).format(detail.priceTotal)}
-            </li>
-          `,
+              (detail: any) => `
+                <tr>
+                  <td>${detail.product.name}</td>
+                  <td>${detail.qty}</td>
+                  <td> ${new Intl.NumberFormat('id-ID', {
+                    style: 'currency',
+                    currency: 'IDR',
+                  }).format(detail.priceUnit)}</td>
+                  <td>${new Intl.NumberFormat('id-ID', {
+                    style: 'currency',
+                    currency: 'IDR',
+                  }).format(detail.priceTotal)}</td>
+                </tr>`,
             )
             .join('')}
-        </ul>
-      </body>
-    </html>
+        </tbody>
+         <tfoot>
+          <tr>
+            <td colspan="3">Total</td>
+            <td>
+              ${new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+              }).format(invoice.totalAmount)}
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+
+      <div class="footer">
+        <p>Thank you for your business!</p>
+      </div>
+    </div>
+  </body>
+</html>
       `;
 
         await page.setContent(content, { waitUntil: 'networkidle0' }); // Wait until the network is idle (optional)
@@ -843,44 +950,124 @@ export class InvoiceController {
 
       await page.setContent(
         `<html>
-        <body>
-        <h1> Hello, this is your invoice</h1>
-          <h1>Invoice Code: ${findInvoice.invoiceCode}</h1>
-          <p>Client: ${findInvoice.client.name}</p>
-          <p>Date: ${new Date(findInvoice.invoiceDate).toLocaleDateString()}</p>
-          <p>Status: ${findInvoice.invoiceStatus}</p>
-          <p>Total Amount: ${new Intl.NumberFormat('id-ID', {
-            style: 'currency',
-            currency: 'IDR',
-          }).format(findInvoice.totalAmount)}</p>
-        <h2>Invoice Details:</h2>
-        <table border="1" cellpadding="10" cellspacing="0">
-          <thead>
-            <tr>
-              <th>Product</th>
-              <th>Quantity</th>
-              <th>Price</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${findInvoice.invoicedetail
-              .map(
-                (detail: any) => `
-                <tr>
-                  <td>${detail.product.name}</td>
-                  <td>${detail.qty}</td>
-                  <td>${new Intl.NumberFormat('id-ID', {
-                    style: 'currency',
-                    currency: 'IDR',
-                  }).format(detail.priceTotal)}</td>
-                </tr>`,
-              )
-              .join('')}
-          </tbody>
-        </table>
+          <head>
+            <style>
+              body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                color: #333;
+                background-color: #f4f4f4;
+              }
 
-        </body>
-      </html>`,
+              .container {
+                width: 80%;
+                margin: 20px auto;
+                background-color: #fff;
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+              }
+
+              h1, h2 {
+                color: #2c3e50;
+                text-align: center;
+              }
+
+              p {
+                font-size: 14px;
+                margin: 5px 0;
+              }
+
+              .invoice-info {
+                text-align: left;
+                margin-bottom: 20px;
+              }
+
+              table {
+                width: 100%;
+                border-collapse: collapse;
+                margin: 20px 0;
+              }
+
+              table, th, td {
+                border: 1px solid #ddd;
+              }
+
+              th, td {
+                padding: 10px;
+                text-align: left;
+              }
+
+              th {
+                background-color: #2c3e50;
+                color: #fff;
+              }
+
+              td {
+                background-color: #f9f9f9;
+              }
+
+              .total {
+                font-weight: bold;
+                text-align: right;
+              }
+
+              .footer {
+                text-align: center;
+                margin-top: 20px;
+                font-size: 12px;
+                color: #999;
+              }
+            </style>
+          </head>
+          <body>
+            <div class="container">
+              <h1>Hello, this is your invoice</h1>
+              <h2>Invoice Code: ${findInvoice.invoiceCode}</h2>
+              
+              <div class="invoice-info">
+                <p><strong>Client:</strong> ${findInvoice.client.name}</p>
+                <p><strong>Date:</strong> ${new Date(findInvoice.invoiceDate).toLocaleDateString()}</p>
+                <p><strong>Status:</strong> ${findInvoice.invoiceStatus}</p>
+                <p><strong>Total Amount:</strong> 
+                  ${new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(findInvoice.totalAmount)}
+                </p>
+              </div>
+
+              <h2>Invoice Details:</h2>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${findInvoice.invoicedetail
+                    .map(
+                      (detail: any) => `
+                        <tr>
+                          <td>${detail.product.name}</td>
+                          <td>${detail.qty}</td>
+                          <td>${new Intl.NumberFormat('id-ID', {
+                            style: 'currency',
+                            currency: 'IDR',
+                          }).format(detail.priceTotal)}</td>
+                        </tr>`,
+                    )
+                    .join('')}
+                </tbody>
+              </table>
+
+              <div class="footer">
+                <p>Thank you for your business!</p>
+              </div>
+            </div>
+          </body>
+        </html>
+        `,
       );
 
       const pdfBuffer = await page.pdf({ format: 'A4' });

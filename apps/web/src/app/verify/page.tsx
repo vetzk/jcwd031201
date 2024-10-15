@@ -32,7 +32,7 @@ const VerifyEmail: React.FunctionComponent<IVerifyEmailProps> = (props) => {
     },
     onSuccess: (data) => {
       setIsLoading(true);
-      toast('Verify Email Success');
+      toast.success('Verify Email Success', { position: 'bottom-center' });
       console.log(data);
       setTimeout(() => {
         setIsLoading(false);
@@ -41,7 +41,7 @@ const VerifyEmail: React.FunctionComponent<IVerifyEmailProps> = (props) => {
     },
     onError: (error) => {
       setIsLoading(false);
-      toast('Failed to verify');
+      toast.error('Failed to verify', { position: 'bottom-center' });
       console.log(error);
     },
   });
@@ -75,7 +75,6 @@ const VerifyEmail: React.FunctionComponent<IVerifyEmailProps> = (props) => {
 
   return (
     <div className="w-full">
-      <ToastContainer />
       <div className="w-full flex flex-col justify-center items-center">
         <div className="w-full h-screen flex flex-col justify-center items-center gap-5 relative">
           <Image src="/mail.png" alt="" width={100} height={100} />

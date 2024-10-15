@@ -55,7 +55,7 @@ const Login: React.FunctionComponent<ILoginProps> = (props) => {
       setIsDialogOpen(false);
       console.log(data);
       localStorage.setItem('token', data.result.token);
-      toast('Login Success', {
+      toast.success('Login Success', {
         onClose: () => {
           setUser({
             email: data.result.email,
@@ -66,12 +66,13 @@ const Login: React.FunctionComponent<ILoginProps> = (props) => {
           setIsLoading(false);
           router.replace('/user/profile');
         },
+        position: 'bottom-center',
       });
     },
     onError: (error: any) => {
       setIsLoading(false);
       setIsDialogOpen(false);
-      toast(error.response.data.message);
+      toast.error(error.response.data.message, { position: 'bottom-center' });
       console.log(error);
     },
   });
@@ -124,8 +125,6 @@ const Login: React.FunctionComponent<ILoginProps> = (props) => {
   };
   return (
     <div className="w-full min-h-screen flex flex-col sm:flex-row gap-10 sm:gap-20 px-4 sm:px-10 pt-16 sm:pt-32 mb-10">
-      <ToastContainer />
-      {/* Left side - Form */}
       <div className="w-full sm:w-1/2 p-5 sm:p-10 flex flex-col">
         <div className="w-full flex flex-col justify-center items-center gap-6 sm:gap-12">
           <div className="w-full flex flex-col justify-center items-center gap-3 sm:gap-5">
@@ -136,7 +135,6 @@ const Login: React.FunctionComponent<ILoginProps> = (props) => {
             </p>
           </div>
           <div className="w-full flex flex-col gap-8 sm:gap-10">
-            {/* Username */}
             <div className="w-full flex flex-col px-5 sm:px-10 gap-2">
               <Label>Username</Label>
               <Input

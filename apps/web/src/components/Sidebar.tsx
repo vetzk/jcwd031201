@@ -25,7 +25,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from './ui/alert-dialog';
-import { Button } from './ui/button';
+import MenuItem from './MenuItem';
+import BottomSideBar from './BottomSideBar';
 
 interface ISidebarProps {}
 
@@ -34,7 +35,6 @@ const Sidebar: React.FunctionComponent<ISidebarProps> = (props) => {
   const [isDialogBottomOpen, setIsDialogBottomOpen] =
     React.useState<boolean>(false);
   const [isDialogUpOpen, setIsDialogUpOpen] = React.useState<boolean>(false);
-  const pathname = usePathname();
   const router = useRouter();
   const { setUser } = React.useContext(UserContext);
 
@@ -49,10 +49,11 @@ const Sidebar: React.FunctionComponent<ISidebarProps> = (props) => {
       setIsDialogBottomOpen(false);
       localStorage.removeItem('token');
       setUser(null);
-      toast('Logout success', {
+      toast.success('Logout success', {
         onClose: () => {
           router.replace('/login');
         },
+        position: 'bottom-center',
       });
       console.log(data);
     },
@@ -60,7 +61,7 @@ const Sidebar: React.FunctionComponent<ISidebarProps> = (props) => {
       setIsDialogOpen(false);
       setIsDialogUpOpen(false);
       setIsDialogBottomOpen(false);
-      toast('Logout failed');
+      toast('Logout failed', { position: 'bottom-center' });
       console.log(error);
     },
   });
@@ -81,77 +82,37 @@ const Sidebar: React.FunctionComponent<ISidebarProps> = (props) => {
       className={`w-full md:w-[20%] border-r-solid border-r-black border-r md:rounded-l-xl fixed md:relative transition-transform duration-300 
     bg-white z-20`}
     >
-      <ToastContainer />
       <div className="hidden md:block">
         <div className="w-full flex flex-col">
           <div className="w-full flex-col flex gap-3 p-5">
             <p>MAIN MENU</p>
             <div className="w-full flex flex-col justify-center gap-3">
-              <div
-                className={`w-full flex gap-3 p-3 items-center cursor-pointer ${
-                  pathname.includes('/dashboard') &&
-                  'shadow-lg rounded-xl border-solid border border-slate-200'
-                }`}
-                onClick={() => router.push('/user/dashboard')}
-              >
-                <RiHome3Line size={20} />
-                <p className="text-slate-400">Dashboard</p>
-              </div>
-              <div
-                className={`w-full flex gap-3 p-3 items-center cursor-pointer ${
-                  pathname.includes('/profile') &&
-                  'shadow-lg rounded-xl border-solid border border-slate-200'
-                }`}
-                onClick={() => router.push('/user/profile')}
-              >
-                <RiProfileLine size={20} />
-                <p className="text-slate-400">Profile</p>
-              </div>
-              <div
-                className={`w-full flex gap-3 p-3 items-center cursor-pointer ${
-                  pathname.includes('/product') &&
-                  'shadow-lg rounded-xl border-solid border border-slate-200'
-                }`}
-                onClick={() => router.push('/user/product')}
-              >
-                <CiBoxes size={20} />
-                <p className="text-slate-400">Products</p>
-              </div>
-              <div className="w-full flex gap-3 p-3 items-center">
-                <GrTransaction size={20} />
-                <p className="text-slate-400">Transactions</p>
-              </div>
-              <div className="w-full flex gap-3 p-3 items-center">
-                <LuWallet2 size={20} />
-                <p className="text-slate-400">My Wallet</p>
-              </div>
-              <div
-                className={`w-full flex gap-3 items-center cursor-pointer p-3 ${
-                  pathname.includes('/invoice') &&
-                  'shadow-lg rounded-xl border-solid border border-slate-200'
-                }`}
-                onClick={() => router.push('/user/invoice')}
-              >
-                <TbFileInvoice size={20} />
-                <p className="text-slate-400">Invoices</p>
-              </div>
-              <div className="w-full flex gap-3 p-3 items-center">
-                <AiOutlinePieChart size={20} />
-                <p className="text-slate-400">Reports</p>
-              </div>
+              <MenuItem icon={RiHome3Line} label="Dashboard" path="dashboard" />
+              <MenuItem icon={RiProfileLine} label="Profile" path="profile" />
+              <MenuItem icon={CiBoxes} label="Products" path="product" />
+              <MenuItem
+                icon={GrTransaction}
+                label="Transactions"
+                path="transaction"
+              />
+              <MenuItem icon={LuWallet2} label="My Wallet" path="wallet" />
+              <MenuItem icon={TbFileInvoice} label="Invoices" path="invoice" />
+              <MenuItem icon={AiOutlinePieChart} label="Report" path="report" />
             </div>
           </div>
           <div className="w-full flex-col flex gap-3 p-5">
             <p>PREFERENCES</p>
             <div className="w-full flex flex-col justify-center gap-3">
-              <div className="w-full flex gap-3 p-3 items-center">
-                <CiSettings size={20} />
-                <p className="text-slate-400">Settings</p>
-              </div>
-              <div className="w-full flex gap-3 p-3 items-center">
-                <IoHelpCircleOutline size={20} />
-                <p className="text-slate-400">Help Center</p>
-              </div>
+              <MenuItem
+                icon={CiSettings}
+                label={'Settings'}
+                path={'settings'}
+              />
+              <MenuItem
+                icon={IoHelpCircleOutline}
+                label={'Help Center'}
+                path={'help'}
+              />
             </div>
           </div>
           <div className="w-full p-5">
@@ -196,48 +157,16 @@ const Sidebar: React.FunctionComponent<ISidebarProps> = (props) => {
 
       {/* Bottom Navigation for screens under 400px */}
       <div className="md:hidden fixed bottom-0 left-0 w-full bg-white shadow-lg flex justify-around p-2 border-t">
-        <div
-          className={`flex flex-col items-center cursor-pointer ${
-            pathname.includes('/dashboard') && 'text-blue-500'
-          }`}
-          onClick={() => router.push('/user/dashboard')}
-        >
-          <RiHome3Line size={20} />
-          <p className="text-xs">Dashboard</p>
-        </div>
-        <div
-          className={`flex flex-col items-center cursor-pointer ${
-            pathname.includes('/profile') && 'text-blue-500'
-          }`}
-          onClick={() => router.push('/user/profile')}
-        >
-          <RiProfileLine size={20} />
-          <p className="text-xs">Profile</p>
-        </div>
-        <div
-          className={`flex flex-col items-center cursor-pointer ${
-            pathname.includes('/product') && 'text-blue-500'
-          }`}
-          onClick={() => router.push('/user/product')}
-        >
-          <CiBoxes size={20} />
-          <p className="text-xs">Products</p>
-        </div>
-        <div
-          className={`flex flex-col items-center cursor-pointer ${
-            pathname.includes('/invoice') && 'text-blue-500'
-          }`}
-          onClick={() => router.push('/user/invoice')}
-        >
-          <TbFileInvoice size={20} />
-          <p className="text-xs">Invoices</p>
-        </div>
+        <BottomSideBar icon={RiHome3Line} label="Dashboard" path="/dashboard" />
+        <BottomSideBar icon={RiProfileLine} label="Profile" path="/profile" />
+        <BottomSideBar icon={CiBoxes} label="Products" path="/products" />
+        <BottomSideBar icon={TbFileInvoice} label="Invoices" path="/invoice" />
         <div
           onClick={handleClickBottomButton}
           className="flex flex-col items-center cursor-pointer"
         >
           <MdLogout size={20} />
-          <p className="text-xs">Logout</p>
+          <p className="text-xs text-slate-400">Logout</p>
           <AlertDialog
             open={isDialogBottomOpen}
             onOpenChange={setIsDialogBottomOpen}

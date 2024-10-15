@@ -70,13 +70,13 @@ const Product: React.FunctionComponent<IProductProps> = (props) => {
     onSuccess: (data) => {
       console.log(data);
       setSelectedProducts([]);
-      toast('Delete Product Success');
+      toast.success('Delete Product Success', { position: 'bottom-center' });
       setTimeout(() => {
         router.replace('/user/product');
       }, 5000);
     },
     onError: (error: any) => {
-      toast('Delete Product Failed');
+      toast.error('Delete Product Failed', { position: 'bottom-center' });
       console.log(error);
     },
   });
@@ -204,7 +204,6 @@ const Product: React.FunctionComponent<IProductProps> = (props) => {
 
   return (
     <div className="w-full">
-      <ToastContainer />
       <div className="flex flex-col md:flex-row mt-28 mb-10 mx-5 md:mx-10 rounded-xl border-slate-500 border border-solid">
         <Sidebar />
         <div className="flex-1">

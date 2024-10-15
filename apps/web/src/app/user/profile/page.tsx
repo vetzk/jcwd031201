@@ -189,13 +189,16 @@ const Profile: React.FunctionComponent<IProfileProps> = (props) => {
       console.log(data);
       setIsDialogOpen(false);
       setIsCreated(data.result.isCreated);
-      toast('Profile updated successfully', { onClose: () => refetch() });
+      toast.success('Profile updated successfully', {
+        onClose: () => refetch(),
+        position: 'bottom-center',
+      });
       // router.replace('/user/profile');
     },
     onError: (error: any) => {
       setIsDialogOpen(false);
       console.log(error);
-      toast('Failed to Update Profile');
+      toast.error('Failed to Update Profile', { position: 'bottom-center' });
     },
   });
 
@@ -210,10 +213,7 @@ const Profile: React.FunctionComponent<IProfileProps> = (props) => {
     setAddress(profile.result.findProfile.address || '');
     setPhone(profile.result.findProfile.phone || '');
     setIsCreated(profile.result.findProfile.isCreated || false);
-    setImageUrl(
-      'http://localhost:8000' + profile.result.findProfile.profilePicture ||
-        '/27002.jpg',
-    );
+    setImageUrl(profile.result.findProfile.profilePicture || '/27002.jpg');
     setImageFile(null);
   };
 
@@ -238,9 +238,7 @@ const Profile: React.FunctionComponent<IProfileProps> = (props) => {
       setPhone(profile.result.findProfile?.phone || '');
       setIsCreated(profile.result.findProfile?.isCreated || false);
       if (profile.result.findProfile?.profilePicture !== undefined) {
-        setImageUrl(
-          'http://localhost:8000' + profile.result.findProfile?.profilePicture,
-        );
+        setImageUrl(profile.result.findProfile?.profilePicture);
       } else {
         setImageUrl('/27002.jpg');
       }
@@ -270,7 +268,6 @@ const Profile: React.FunctionComponent<IProfileProps> = (props) => {
 
   return (
     <div className="w-full">
-      <ToastContainer />
       <div className="flex flex-col md:flex-row mt-28 mb-10 mx-5 md:mx-10 rounded-xl border-slate-500 border border-solid">
         <Sidebar />
         <div className="flex-1">
@@ -318,6 +315,21 @@ const Profile: React.FunctionComponent<IProfileProps> = (props) => {
                 </AlertDialog>
               </div>
             </div>
+            {!user?.isVerified && (
+              <div className="w-full flex md:justify-center md:flex-row flex-col gap-5 items-center border-b border-solid border-b-black p-5">
+                <div className="flex flex-col items-center gap-3">
+                  <Button
+                    className="w-1/4"
+                    onClick={() => router.replace('/verify')}
+                  >
+                    Verify
+                  </Button>
+                  <p className="text-red-500 text-center">
+                    Please verify first if you want to access the features
+                  </p>
+                </div>
+              </div>
+            )}
             {!user?.isVerified && (
               <div className="w-full flex md:justify-center md:flex-row flex-col gap-5 items-center border-b border-solid border-b-black p-5">
                 <div className="flex flex-col items-center gap-3">
@@ -413,6 +425,19 @@ const Profile: React.FunctionComponent<IProfileProps> = (props) => {
                 )}
               </div>
               <div className="w-full flex flex-col gap-3">
+                <Label>Company Name</Label>
+                <Input
+                  className="w-full sm:w-1/2"
+                  placeholder="Your company name"
+                  type="text"
+                  value={companyName}
+                  onChange={(e) => setCompanyName(e.target.value)}
+                />
+                {error.companyName && (
+                  <p className="text-red-500">{error.companyName}</p>
+                )}
+              </div>
+              <div className="w-full flex flex-col gap-3">
                 <Label>Phone Number</Label>
                 <Input
                   className="w-full sm:w-1/2"
@@ -421,6 +446,19 @@ const Profile: React.FunctionComponent<IProfileProps> = (props) => {
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                 />
+                {error.phone && <p className="text-red-500">{error.phone}</p>}
+              </div>
+              <div className="w-full flex flex-col gap-3">
+                <Label>Address</Label>
+                <Input
+                  className="w-full sm:w-1/2"
+                  placeholder="Your address"
+                  type="text"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                />
+                {error.address && (
+                  <p className="text-red-500">{error.address}</p>
                 {error.phone && <p className="text-red-500">{error.phone}</p>}
               </div>
               <div className="w-full flex flex-col gap-3">

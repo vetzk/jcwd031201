@@ -19,6 +19,7 @@ import { PaymentRouter } from './routers/payment.router';
 import { startCronJobs } from './cron/recurringInvoices';
 import cron from 'node-cron';
 import { sendRecurringInvoices } from './services/recurringInvoiceService';
+import cloudinary from './utils/cloudinary';
 
 export default class App {
   private app: Express;
@@ -35,6 +36,12 @@ export default class App {
     this.app.use(json());
     this.app.use(urlencoded({ extended: true }));
     this.app.use('/assets', express.static(path.join(__dirname, '../public')));
+
+    cloudinary.config({
+      cloud_name: process.env.CLOUDINARY_CLOUD_NAME, // Replace with your Cloudinary cloud name
+      api_key: process.env.CLOUDINARY_API_KEY, // Replace with your Cloudinary API key
+      api_secret: process.env.CLOUDINARY_API_SECRET, // Replace with your Cloudinary API secret
+    });
   }
 
   private handleError(): void {
