@@ -613,6 +613,7 @@ const InvoiceDetail: React.FunctionComponent<IInvoiceDetailProps> = ({
                         <SelectValue placeholder="Select days" />
                       </SelectTrigger>
                       <SelectContent className="">
+                        <SelectItem value="0">0</SelectItem>
                         <SelectItem value="2">2</SelectItem>
                         <SelectItem value="7">7</SelectItem>
                         <SelectItem value="14">14</SelectItem>

@@ -7,9 +7,9 @@ import * as React from 'react';
 import Image from 'next/image';
 import { UserContext } from '@/contexts/UserContext';
 import withAuth from '@/hoc/authGuard';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import apiCall from '@/helper/apiCall';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import useProfile from '@/helper/useProfile';
 import 'react-toastify/dist/ReactToastify.css';
 import {

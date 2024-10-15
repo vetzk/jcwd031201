@@ -35,7 +35,6 @@ const UserProvider: React.FunctionComponent<IUserProviderProps> = ({
         //   Authorization: `Bearer ${checkToken}`,
         // },
       });
-      console.log(data);
       localStorage.setItem('token', data.result.token);
       setUser({
         email: data.result.email,
