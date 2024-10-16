@@ -159,7 +159,7 @@ const Sidebar: React.FunctionComponent<ISidebarProps> = (props) => {
       <div className="md:hidden fixed bottom-0 left-0 w-full bg-white shadow-lg flex justify-around p-2 border-t">
         <BottomSideBar icon={RiHome3Line} label="Dashboard" path="/dashboard" />
         <BottomSideBar icon={RiProfileLine} label="Profile" path="/profile" />
-        <BottomSideBar icon={CiBoxes} label="Products" path="/products" />
+        <BottomSideBar icon={CiBoxes} label="Products" path="/product" />
         <BottomSideBar icon={TbFileInvoice} label="Invoices" path="/invoice" />
         <div
           onClick={handleClickBottomButton}
